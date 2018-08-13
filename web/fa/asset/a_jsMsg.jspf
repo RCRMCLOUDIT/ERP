@@ -1,0 +1,41 @@
+<FORM name="a_jsMsg">
+
+<INPUT type="hidden" name="error1" value="<%=rb.getString("P1211err1")%>">
+<INPUT type="hidden" name="error2" value="<%=rb.getString("P1211err2")%>">
+<INPUT type="hidden" name="error3" value="<%=rb.getString("P1211err3")%>">
+<INPUT type="hidden" name="error4" value="<%=rb.getString("P1211err4")%>">
+<INPUT type="hidden" name="error5" value="<%=rb.getString("P1211err5")%>">
+<INPUT type="hidden" name="error6" value="<%=rb.getString("P1211err6")%>">
+<INPUT type="hidden" name="error7" value="<%=rb.getString("P1211err7")%>">
+<INPUT type="hidden" name="error8" value="<%=rb.getString("P1211err8")%>">
+<INPUT type="hidden" name="error9" value="<%=rb.getString("P1211err9")%>">
+<INPUT type="hidden" name="error10" value="<%=rb.getString("P1211err10")%>">
+<INPUT type="hidden" name="error11" value="<%=rb.getString("P1211err11")%>">
+<INPUT type="hidden" name="error12" value="<%=rb.getString("P1211err12")%>">
+<INPUT type="hidden" name="error13" value="<%=rb.getString("P1211err13")%>">
+<INPUT type="hidden" name="error14" value="<%=rb.getString("P1211err14")%>">
+<INPUT type="hidden" name="error15" value="<%=rb.getString("P1211err15")%>">
+<INPUT type="hidden" name="error16" value="<%=rb.getString("P1211err16")%>">
+<INPUT type="hidden" name="error17" value="<%=rb.getString("P1211err17")%>">
+<INPUT type="hidden" name="error18" value="<%=rb.getString("P1211err18")%>">
+<INPUT type="hidden" name="error19" value="<%=rb.getString("P1211err19")%>">
+<INPUT type="hidden" name="error20" value="<%=rb.getString("P1211err20")%>">
+<INPUT type="hidden" name="error21" value="<%=rb.getString("P1211err21")%>">
+<INPUT type="hidden" name="error22" value="<%=rb.getString("P1211err22")%>">
+<INPUT type="hidden" name="error23" value="<%=rb.getString("P1211err23")%>">
+<INPUT type="hidden" name="error24" value="<%=rb.getString("P1211err24")%>">
+<INPUT type="hidden" name="error25" value="<%=rb.getString("P1211err25")%>">
+<INPUT type="hidden" name="error26" value="<%=rb.getString("P1211err26")%>">
+<INPUT type="hidden" name="error27" value="<%=rb.getString("P1211err27")%>">
+<INPUT type="hidden" name="error28" value="<%=rb.getString("P1211err28")%>">
+<INPUT type="hidden" name="error29" value="<%=rb.getString("P1211err29")%>">
+<INPUT type="hidden" name="error30" value="<%=rb.getString("P1211err30")%>">
+<INPUT type="hidden" name="error31" value="<%=rb.getString("P1211err31")%>">
+<INPUT type="hidden" name="error32" value="<%=rb.getString("P1211err32")%>">
+<INPUT type="hidden" name="error33" value="<%=rb.getString("P1211err33")%>">
+<INPUT type="hidden" name="error33" value="<%=rb.getString("P1211err34")%>">
+<INPUT type="hidden" name="error33" value="<%=rb.getString("P1211err35")%>">
+<INPUT type="hidden" name="error33" value="<%=rb.getString("P1211err36")%>">
+<INPUT type="hidden" name="error33" value="<%=rb.getString("P1211err37")%>">
+
+</FORM>

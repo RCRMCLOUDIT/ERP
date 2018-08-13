@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<servlet>
+  <markup-language>
+    <ml-name>HTML</ml-name>
+    <ml-mime>text/html</ml-mime>
+    <page-list>
+    </page-list>
+  </markup-language>
+  <code>com.cap.util.UploadImage</code>
+    <init-parameter value="jdbc/capnet" name="dataSourceName"/>
+    <init-parameter value="/www/webserver/htdocs/PortalCompLogo" name="Logo"/>
+    <init-parameter value="/www/webserver/htdocs/PortalCompBanner" name="Banner"/>
+    <init-parameter value="/www/webserver/htdocs/PortalCompPDFLogo" name="PDF"/>
+    <init-parameter value="/www/webserver/htdocs/PortalCompCheckLogo" name="Check"/>
+</servlet>
