@@ -35,13 +35,13 @@ public class ServletContabilidad extends HttpServlet {
                 //MENSAJE = 1 EL NOMBRE DE CUENTA YA EXISTE
                 //response.sendRedirect("AgregarTipoCuenta.jsp?Msg=" + Msg + "");
                 //request.getRequestDispatcher("/contabilidad/AgregarTipoCuenta.jsp?Msg=" + Msg).forward(request, response);
-                response.sendRedirect("contabilidad/AgregarTipoCuenta.jsp?Msg=" + Msg);
+                response.sendRedirect("Contabilidad/AgregarTipoCuenta.jsp?Msg=" + Msg);
             } else if (GLTPCLSID == GetGLTPCLSID) {
                 Msg = 2;
                 //MENSAJE = 2 EL CODIGO DE CUENTA YA EXISTE
                 //response.sendRedirect("AgregarTipoCuenta.jsp?Msg=" + Msg + "");
                 //request.getRequestDispatcher("/contabilidad/AgregarTipoCuenta.jsp?Msg=" + Msg).forward(request, response);
-                response.sendRedirect("contabilidad/AgregarTipoCuenta.jsp?Msg=" + Msg);
+                response.sendRedirect("Contabilidad/AgregarTipoCuenta.jsp?Msg=" + Msg);
             } else {
                 try {
                     datos.GLADDTYPACC(CompanyId, GLTPCLSID, GLTPNAME, GLTPACCID, "Moises Romero", "");
@@ -50,7 +50,7 @@ public class ServletContabilidad extends HttpServlet {
                 }
                 //response.sendRedirect("contabilidad/TipoCuentas.jsp");               
             }
-            response.sendRedirect("contabilidad/TiposCuenta.jsp");
+            response.sendRedirect("Contabilidad/TiposCuenta.jsp");
         }//FIN DEL IF PARA AGREGAR UN NUEVO TIPO DE CUENTA CONTABLE
 
         //---------------------------------------------------------------------//
@@ -75,9 +75,9 @@ public class ServletContabilidad extends HttpServlet {
                 //MENSAJE = 1 EL NOMBRE DE CUENTA YA EXISTE
                 //response.sendRedirect("AgregarTipoCuenta.jsp?Msg=" + Msg + "");
                 //request.getRequestDispatcher("/contabilidad/ModificarTipoCuenta.jsp?GLTPCLSID=" + GLTPCLSID + "&Msg=" + Msg).forward(request, response);
-                response.sendRedirect("contabilidad/ModificarTipoCuenta.jsp?GLTPCLSID=" + GLTPCLSID + "&Msg=" + Msg);
+                response.sendRedirect("Contabilidad/ModificarTipoCuenta.jsp?GLTPCLSID=" + GLTPCLSID + "&Msg=" + Msg);
             }
-            response.sendRedirect("contabilidad/TiposCuenta.jsp");
+            response.sendRedirect("Contabilidad/TiposCuenta.jsp");
         }//FIN DEL IF PARA ACTUALIZAR UN TIPO DE CUENTA CONTABLE
 
         //---------------------------------------------------------------------//
@@ -105,12 +105,12 @@ public class ServletContabilidad extends HttpServlet {
                 //MENSAJE = 1 EL NOMBRE DE CUENTA YA EXISTE
                 Msg = 1;
                 //request.getRequestDispatcher("/contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg).forward(request, response);
-                response.sendRedirect("contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg);
+                response.sendRedirect("Contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg + "&IdTipoCuenta=" + IdTipoCta + "&Name=" + NombreCta + "&Num=" + NumeroCta + "&Desc=" + Descripcion);
             } else if (NumeroCta.equals(GetNumber)) {
                 //MENSAJE = 2 EL NUMERO DE CUENTA YA EXISTE
                 Msg = 2;
                 //request.getRequestDispatcher("/contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg).forward(request, response);
-                response.sendRedirect("contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg);
+                response.sendRedirect("Contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg + "&IdTipoCuenta=" + IdTipoCta + "&Name=" + NombreCta + "&Num=" + NumeroCta + "&Desc=" + Descripcion);
             } else {
                 //SI SUB-CTA = 0; QUIERE DECIR QUE SERA UNA CUENTA DE NIVEL 1.
                 if (SubCta == 0) {
@@ -126,7 +126,7 @@ public class ServletContabilidad extends HttpServlet {
                         e.getMessage();
                     }
                     //REDIRECCIONO A LA PAGINA DEL CATALOGO CONTABLE
-                    response.sendRedirect("contabilidad/CatalogoContable.jsp");
+                    response.sendRedirect("Contabilidad/CatalogoContable.jsp");
                 }
                 //SI SUB-CTA > 0; QUIERE DECIR QUE SERA UNA CUENTA DE NIVEL 2,3,4,5,6
                 if (SubCta > 0) {
@@ -218,7 +218,7 @@ public class ServletContabilidad extends HttpServlet {
                             break;
                     }
                     //REDIRECCIONO A LA PAGINA DEL CATALOGO CONTABLE
-                    response.sendRedirect("contabilidad/CatalogoContable.jsp");
+                    response.sendRedirect("Contabilidad/CatalogoContable.jsp");
                 }
             }
         } //FIN DEL IF PARA REGISTRAR UNA CUENTA EN EL CATALOGO CONTABLE
@@ -239,21 +239,21 @@ public class ServletContabilidad extends HttpServlet {
             if (IdCatalogo != GetIdCatalogo) {
                 //MENSAJE = 1 EL NOMBRE DE CUENTA YA EXISTE
                 Msg = 1;
-                response.sendRedirect("contabilidad/EditarCuentaContable.jsp?IDCATALOGO=" + IdCatalogo + "&Msg=" + Msg);
+                response.sendRedirect("Contabilidad/EditarCuentaContable.jsp?IDCATALOGO=" + IdCatalogo + "&Msg=" + Msg);
             } else {
                 datos.CheckNumberIBGLACCNTS(NumeroCta); // MANDO A VERIFICAR SI HAY COINCIDENCIA CON EL NUMERO DE LA CUENTA
                 GetIdCatalogo = datos.GetIdCatalogo;
                 if (IdCatalogo != GetIdCatalogo) {
                     //MENSAJE = 1 EL NUMERO DE CUENTA YA EXISTE
                     Msg = 2;
-                    response.sendRedirect("contabilidad/EditarCuentaContable.jsp?IDCATALOGO=" + IdCatalogo + "&Msg=" + Msg);
+                    response.sendRedirect("Contabilidad/EditarCuentaContable.jsp?IDCATALOGO=" + IdCatalogo + "&Msg=" + Msg);
                 } else {
                     try {
                         datos.GLUPDACNTS(IdCatalogo, NumeroCta, NombreCta, Descripcion, "Moises Romero", "", CompanyId);
                     } catch (Exception e) {
                         e.getMessage();
                     }
-                    response.sendRedirect("contabilidad/CatalogoContable.jsp");
+                    response.sendRedirect("Contabilidad/CatalogoContable.jsp");
                 }
             }
 

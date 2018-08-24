@@ -3,10 +3,9 @@ package beans;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
 /**
  *
- * @author Ing. Moises Romero Mojica
+ * @author Moises Romero
  */
 public class ConexionDB {
 //PARAMETROS PARA LA CONEXION AL SERVIDOR DE MOCHA
@@ -16,7 +15,7 @@ public class ConexionDB {
 //    public Connection conexion = null;
 //    public String driver;
 
-//PARAMETROS PARA LA CONEXION MI SERVIDOR LOCAL MOISES ROMERO
+//PARAMETROS PARA LA CONEXION MI SERVIDOR LOCAL
     public String userSQL = "MROMERO";
     public String pass = "MROMERO0017G";
     public String sUrl = "jdbc:mysql://localhost:3306/cloud.pos";
@@ -49,4 +48,5 @@ public class ConexionDB {
         conexion = null;
         return conexion;
     }
+
 }

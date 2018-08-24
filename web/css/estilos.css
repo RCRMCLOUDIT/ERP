@@ -10,7 +10,8 @@
 
 body{
     background: no-repeat center center fixed;
-    background-image: url('../../assets/img/FondoMcDonald.jpg');
+    background-position: top;
+    background-image: url('../images/HomeBG.png');
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
