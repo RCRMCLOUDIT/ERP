@@ -15,28 +15,71 @@
         <script src="js/jquery.min.js"></script>
         <script src="js/popper.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/blocker.js"></script>
+        <script src="js/cross-browser.js"></script>
         <title>Principal</title>
     </head>
-    <%-- MENU --%> 
-    <nav class="navbar navbar-expand-sm bg-primary navbar-light">
-        <!-- Brand -->
-        <a class="navbar-brand" style="color: #FFFFFF;" href="Principal.jsp">Infinity Business</a>
-        <!-- Links -->
-        <ul class="navbar-nav">
-            <%--
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link 1</a>
-            </li>
-            --%>
-            <!-- Dropdown -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" style="color: #FFFFFF;">Contabilidad</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="Contabilidad/TiposCuenta.jsp">Tipos Cuentas</a>
-                    <a class="dropdown-item" href="Contabilidad/CatalogoContable.jsp">Catalogo Contable</a>
-                </div>
-            </li>
-        </ul>
-    </nav>
-    <%-- END OF MENU --%> 
+    <body>
+        <%-- MENU --%>
+        <nav class="navbar navbar-expand-sm bg-light navbar-light">
+            <!-- Brand -->
+            <a class="navbar-brand" href=""><img src="images/LOGOIB.png" title="Infinity Business"></a>
+            <!-- Links -->
+            <ul class="navbar-nav">
+                <!-- Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Administracion</a>
+                    <div class="dropdown-menu">
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Producto</a>
+                    <div class="dropdown-menu">
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Bodega</a>
+                    <div class="dropdown-menu">
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Ventas</a>
+                    <div class="dropdown-menu">
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Compras</a>
+                    <div class="dropdown-menu">
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">CxC</a>
+                    <div class="dropdown-menu">
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">CxP</a>
+                    <div class="dropdown-menu">
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Contabilidad</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="Contabilidad/TiposCuenta.jsp">Tipos Cuentas</a>
+                        <a class="dropdown-item" href="Contabilidad/CatalogoContable.jsp">Catalogo Contable</a>
+                        <a class="dropdown-item" href="Contabilidad/PlantillaComprobante.jsp">Plantilla Comprobante</a>
+                        <a class="dropdown-item" href="Contabilidad/BuscarComprobante.jsp">Buscar Comprobante</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <%-- END OF MENU --%> 
+    </body>
 </html>
