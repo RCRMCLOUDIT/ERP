@@ -16,6 +16,7 @@ public class ServletContabilidad extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String URL = ""; // ESTA VARIABLE SERA PARA MANEJAR LA URL
         String Accion = request.getParameter("form-Accion");
         int Msg = 0; // ESTA VARIABLE SERA PARA CONTROLAR LOS MENSAJES DE ERROR Y ENVIARLO A LA VISTA
         //---------------------------------------------------------------------//
@@ -33,24 +34,20 @@ public class ServletContabilidad extends HttpServlet {
             if (GLTPNAME.equals(GetGLTPNAME)) {
                 Msg = 1;
                 //MENSAJE = 1 EL NOMBRE DE CUENTA YA EXISTE
-                //response.sendRedirect("AgregarTipoCuenta.jsp?Msg=" + Msg + "");
-                //request.getRequestDispatcher("/contabilidad/AgregarTipoCuenta.jsp?Msg=" + Msg).forward(request, response);
-                response.sendRedirect("Contabilidad/AgregarTipoCuenta.jsp?Msg=" + Msg);
+                URL = "Contabilidad/AgregarTipoCuenta.jsp?Msg=" + Msg;
             } else if (GLTPCLSID == GetGLTPCLSID) {
                 Msg = 2;
                 //MENSAJE = 2 EL CODIGO DE CUENTA YA EXISTE
-                //response.sendRedirect("AgregarTipoCuenta.jsp?Msg=" + Msg + "");
-                //request.getRequestDispatcher("/contabilidad/AgregarTipoCuenta.jsp?Msg=" + Msg).forward(request, response);
-                response.sendRedirect("Contabilidad/AgregarTipoCuenta.jsp?Msg=" + Msg);
+                URL = "Contabilidad/AgregarTipoCuenta.jsp?Msg=" + Msg;
             } else {
                 try {
                     datos.GLADDTYPACC(CompanyId, GLTPCLSID, GLTPNAME, GLTPACCID, "Moises Romero", "");
                 } catch (Exception e) {
                     e.getMessage();
                 }
-                //response.sendRedirect("contabilidad/TipoCuentas.jsp");               
             }
-            response.sendRedirect("Contabilidad/TiposCuenta.jsp");
+            URL = "Contabilidad/TiposCuenta.jsp";
+            response.sendRedirect(URL);
         }//FIN DEL IF PARA AGREGAR UN NUEVO TIPO DE CUENTA CONTABLE
 
         //---------------------------------------------------------------------//
@@ -60,11 +57,27 @@ public class ServletContabilidad extends HttpServlet {
             int GLTPCLSID = Integer.valueOf(request.getParameter("form-NumeroCuenta"));
             String GLTPNAME = request.getParameter("form-NombreCuenta");
             String GLTPACCID = request.getParameter("form-TipoCuenta");
+            if (GLTPACCID.equals("Activo")) {
+                GLTPACCID = "A";
+            }
+            if (GLTPACCID.equals("Pasivo")) {
+                GLTPACCID = "P";
+            }
+            if (GLTPACCID.equals("Capital")) {
+                GLTPACCID = "C";
+            }
+            if (GLTPACCID.equals("Ingresos")) {
+                GLTPACCID = "I";
+            }
+            if (GLTPACCID.equals("Gastos")) {
+                GLTPACCID = "G";
+            }
             DaoContabilidad datos = new DaoContabilidad();
             datos.VerifarNombre(GLTPNAME);
+            //TRABAJAR MEJORAR ESTA PARTE PARA HACER BIEN LA ACTUALIZACION DE DATOS. DE TIPO DE CUENTA
             String GetGLTPNAME = datos.GetGLTPNAME;
             int GetGLTPCLSID = datos.GetGLTPCLSID;
-            if (GLTPNAME.equals(GetGLTPNAME) && GLTPCLSID == GetGLTPCLSID) {
+            if (GLTPCLSID != GetGLTPCLSID) {
                 try {
                     datos.GLUPDTYPACC(GLTPCLSID, GLTPNAME, GLTPACCID, "Moises Romero", "");
                 } catch (Exception e) {
@@ -73,14 +86,13 @@ public class ServletContabilidad extends HttpServlet {
             } else {
                 Msg = 1;
                 //MENSAJE = 1 EL NOMBRE DE CUENTA YA EXISTE
-                //response.sendRedirect("AgregarTipoCuenta.jsp?Msg=" + Msg + "");
-                //request.getRequestDispatcher("/contabilidad/ModificarTipoCuenta.jsp?GLTPCLSID=" + GLTPCLSID + "&Msg=" + Msg).forward(request, response);
-                response.sendRedirect("Contabilidad/ModificarTipoCuenta.jsp?GLTPCLSID=" + GLTPCLSID + "&Msg=" + Msg);
+                URL = "Contabilidad/ModificarTipoCuenta.jsp?GLTPCLSID=" + GLTPCLSID + "&Msg=" + Msg;
             }
-            response.sendRedirect("Contabilidad/TiposCuenta.jsp");
+            URL = "Contabilidad/TiposCuenta.jsp";
+            response.sendRedirect(URL);
         }//FIN DEL IF PARA ACTUALIZAR UN TIPO DE CUENTA CONTABLE
 
-        //---------------------------------------------------------------------//
+        //----------------------------------------------------------------------------------------------------//
         // IF PARA REGISTRAR UNA CUENTA EN EL CATALOGO CONTABLE
         if (Accion.equals("AddCtaContable")) {
             //RECUPERO LOS PARAMETROS DEL JSP
@@ -104,13 +116,13 @@ public class ServletContabilidad extends HttpServlet {
             if (NombreCta.equals(GetName)) {
                 //MENSAJE = 1 EL NOMBRE DE CUENTA YA EXISTE
                 Msg = 1;
-                //request.getRequestDispatcher("/contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg).forward(request, response);
-                response.sendRedirect("Contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg + "&IdTipoCuenta=" + IdTipoCta + "&Name=" + NombreCta + "&Num=" + NumeroCta + "&Desc=" + Descripcion);
+                URL = "Contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg + "&IdTipoCuenta=" + IdTipoCta + "&Name=" + NombreCta + "&Num=" + NumeroCta + "&Desc=" + Descripcion + "&SubC=" + SubCta;
+                //response.sendRedirect("Contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg + "&IdTipoCuenta=" + IdTipoCta + "&Name=" + NombreCta + "&Num=" + NumeroCta + "&Desc=" + Descripcion);
             } else if (NumeroCta.equals(GetNumber)) {
                 //MENSAJE = 2 EL NUMERO DE CUENTA YA EXISTE
                 Msg = 2;
-                //request.getRequestDispatcher("/contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg).forward(request, response);
-                response.sendRedirect("Contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg + "&IdTipoCuenta=" + IdTipoCta + "&Name=" + NombreCta + "&Num=" + NumeroCta + "&Desc=" + Descripcion);
+                URL = "Contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg + "&IdTipoCuenta=" + IdTipoCta + "&Name=" + NombreCta + "&Num=" + NumeroCta + "&Desc=" + Descripcion + "&SubC=" + SubCta;
+                //response.sendRedirect("Contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg + "&IdTipoCuenta=" + IdTipoCta + "&Name=" + NombreCta + "&Num=" + NumeroCta + "&Desc=" + Descripcion);
             } else {
                 //SI SUB-CTA = 0; QUIERE DECIR QUE SERA UNA CUENTA DE NIVEL 1.
                 if (SubCta == 0) {
@@ -126,7 +138,8 @@ public class ServletContabilidad extends HttpServlet {
                         e.getMessage();
                     }
                     //REDIRECCIONO A LA PAGINA DEL CATALOGO CONTABLE
-                    response.sendRedirect("Contabilidad/CatalogoContable.jsp");
+                    //response.sendRedirect("Contabilidad/CatalogoContable.jsp");
+                    URL = "Contabilidad/CatalogoContable.jsp";
                 }
                 //SI SUB-CTA > 0; QUIERE DECIR QUE SERA UNA CUENTA DE NIVEL 2,3,4,5,6
                 if (SubCta > 0) {
@@ -218,9 +231,11 @@ public class ServletContabilidad extends HttpServlet {
                             break;
                     }
                     //REDIRECCIONO A LA PAGINA DEL CATALOGO CONTABLE
-                    response.sendRedirect("Contabilidad/CatalogoContable.jsp");
+                    //response.sendRedirect("Contabilidad/CatalogoContable.jsp");
+                    URL = "Contabilidad/CatalogoContable.jsp";
                 }
             }
+            response.sendRedirect(URL);
         } //FIN DEL IF PARA REGISTRAR UNA CUENTA EN EL CATALOGO CONTABLE
 
         //---------------------------------------------------------------------//
@@ -236,29 +251,190 @@ public class ServletContabilidad extends HttpServlet {
             int GetIdCatalogo = 0;// ESTA VARIABLE ME SERVIRA PARA RECUPERAR EL ID DE LA CUENTA QUE TIENE EL MISMO NOMBRE Ó NUMERO
             datos.CheckNameIBGLACCNTS(NombreCta); // MANDO A VERIFICAR SI HAY COINCIDENCIA CON EL NOMBRE DE LA CUENTA
             GetIdCatalogo = datos.GetIdCatalogo;
-            if (IdCatalogo != GetIdCatalogo) {
+            if (IdCatalogo != GetIdCatalogo && GetIdCatalogo > 0) {
                 //MENSAJE = 1 EL NOMBRE DE CUENTA YA EXISTE
                 Msg = 1;
-                response.sendRedirect("Contabilidad/EditarCuentaContable.jsp?IDCATALOGO=" + IdCatalogo + "&Msg=" + Msg);
+                //response.sendRedirect("Contabilidad/EditarCuentaContable.jsp?IDCATALOGO=" + IdCatalogo + "&Msg=" + Msg);
+                URL = "Contabilidad/EditarCuentaContable.jsp?IDCATALOGO=" + IdCatalogo + "&Msg=" + Msg;
             } else {
                 datos.CheckNumberIBGLACCNTS(NumeroCta); // MANDO A VERIFICAR SI HAY COINCIDENCIA CON EL NUMERO DE LA CUENTA
                 GetIdCatalogo = datos.GetIdCatalogo;
-                if (IdCatalogo != GetIdCatalogo) {
+                if (IdCatalogo != GetIdCatalogo && GetIdCatalogo > 0) {
                     //MENSAJE = 1 EL NUMERO DE CUENTA YA EXISTE
                     Msg = 2;
-                    response.sendRedirect("Contabilidad/EditarCuentaContable.jsp?IDCATALOGO=" + IdCatalogo + "&Msg=" + Msg);
+                    //response.sendRedirect("Contabilidad/EditarCuentaContable.jsp?IDCATALOGO=" + IdCatalogo + "&Msg=" + Msg);
+                    URL = "Contabilidad/EditarCuentaContable.jsp?IDCATALOGO=" + IdCatalogo + "&Msg=" + Msg;
                 } else {
                     try {
                         datos.GLUPDACNTS(IdCatalogo, NumeroCta, NombreCta, Descripcion, "Moises Romero", "", CompanyId);
                     } catch (Exception e) {
                         e.getMessage();
                     }
-                    response.sendRedirect("Contabilidad/CatalogoContable.jsp");
+                    //response.sendRedirect("Contabilidad/CatalogoContable.jsp");
+                    URL = "Contabilidad/CatalogoContable.jsp";
                 }
             }
-
+            response.sendRedirect(URL);
         }//FIN DEL IF PARA ACTUAIZAR UNA CUENTA EN EL CATALOGO CONTABLE
-    }
+
+        //---------------------------------------------------------------------//
+        //--------- IF PARA AGREGAR DATOS A  PLANTILLA CONTABLE ---------------//
+        //---------------------------------------------------------------------//
+        if (Accion.equals("AddPlantillaComprobante")) {
+            int IdPlantilla = Integer.valueOf(request.getParameter("form-IdPlantilla"));
+            if (IdPlantilla == 0) {
+                // SI EL ID PLANTILLA ES IGUAL A 0 QUIERE DECIR QUE ES UNA NUEVA PLANTILLA
+                DaoContabilidad datos = new DaoContabilidad();
+                String Descripcion = request.getParameter("form-DescripcionPlantilla");
+                String Referencia = "";
+                int IdCatalago = Integer.valueOf(request.getParameter("form-CtaContable"));
+                String AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6;
+                datos.BuscarIBGLACCNTS(IdCatalago);
+                AccountLevel1 = datos.GetAccountLevel1;
+                AccountLevel2 = datos.GetAccountLevel2;
+                AccountLevel3 = datos.GetAccountLevel3;
+                AccountLevel4 = datos.GetAccountLevel4;
+                AccountLevel5 = datos.GetAccountLevel5;
+                AccountLevel6 = datos.GetAccountLevel6;
+                String ComentLinea = request.getParameter("form-DescLinea");
+                Double MontoTranCurr = Double.valueOf(request.getParameter("form-Monto"));
+                Double MontoCompCurre = Double.valueOf(request.getParameter("form-Monto"));
+                Double MontoBaseCurre = Double.valueOf(request.getParameter("form-Monto"));
+                int TypeCurrency = 0;
+                Double ExchangeRate = 0.00;
+                String TypeMov = request.getParameter("form-TipoMov");
+                int IdTypeCC = Integer.valueOf(request.getParameter("form-TipoCC"));
+                int IdCtaCC = Integer.valueOf(request.getParameter("form-CtaCentroCost"));
+                Double GLTMCCID1 = 0.00, GLTMCCID2 = 0.00, GLTMCCID3 = 0.00, GLTMCCID4 = 0.00, GLTMCCID5 = 0.00;
+                String CreatedBy = "Moises Romero", CreatedFromIP = "192.168.1.10";
+                int CompanyId = 1;
+                datos.GetCounGLTMID();
+                IdPlantilla = datos.GetCurrentGLTMID;
+                int LineId = 1;
+                try {
+                    datos.GLADDTPDST(IdPlantilla, IdCatalago, LineId, Referencia, Descripcion, AccountLevel1, AccountLevel2, AccountLevel3,
+                            AccountLevel4, AccountLevel5, AccountLevel6, ComentLinea, MontoTranCurr, MontoCompCurre, MontoBaseCurre,
+                            TypeCurrency, ExchangeRate, TypeMov, IdTypeCC, GLTMCCID1, GLTMCCID2, GLTMCCID3, GLTMCCID4, GLTMCCID5,
+                            CreatedBy, CreatedFromIP, CompanyId);
+                    datos.UpdateHeaderNameTMP(IdPlantilla, Descripcion);
+                } catch (Exception e) {
+                }
+                URL = "Contabilidad/AddPlantillaContable.jsp?IdPlantilla=" + IdPlantilla + "&DescPlant=" + Descripcion;
+            } else {
+                // SI EL ID PLANTILLA NO ES IGUAL A 0 QUIERE DECIR QUE ES UNA PLANTILLA QUE YA EXISTE
+                DaoContabilidad datos = new DaoContabilidad();
+                String Descripcion = request.getParameter("form-DescripcionPlantilla");
+                String Referencia = "";
+                int IdCatalago = Integer.valueOf(request.getParameter("form-CtaContable"));
+                String AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6;
+                datos.BuscarIBGLACCNTS(IdCatalago);
+                AccountLevel1 = datos.GetAccountLevel1;
+                AccountLevel2 = datos.GetAccountLevel2;
+                AccountLevel3 = datos.GetAccountLevel3;
+                AccountLevel4 = datos.GetAccountLevel4;
+                AccountLevel5 = datos.GetAccountLevel5;
+                AccountLevel6 = datos.GetAccountLevel6;
+                String ComentLinea = request.getParameter("form-DescLinea");
+                Double MontoTranCurr = Double.valueOf(request.getParameter("form-Monto"));
+                Double MontoCompCurre = Double.valueOf(request.getParameter("form-Monto"));
+                Double MontoBaseCurre = Double.valueOf(request.getParameter("form-Monto"));
+                int TypeCurrency = 0;
+                Double ExchangeRate = 0.00;
+                String TypeMov = request.getParameter("form-TipoMov");
+                int IdTypeCC = Integer.valueOf(request.getParameter("form-TipoCC"));
+                int IdCtaCC = Integer.valueOf(request.getParameter("form-CtaCentroCost"));
+                Double GLTMCCID1 = 0.00, GLTMCCID2 = 0.00, GLTMCCID3 = 0.00, GLTMCCID4 = 0.00, GLTMCCID5 = 0.00;
+                String CreatedBy = "Moises Romero", CreatedFromIP = "192.168.1.10";
+                int CompanyId = 1;
+                datos.GetCountLineID(IdPlantilla);
+                int LineId = datos.GetCurrentGLTMLINEID;
+                try {
+                    datos.GLADDTPDST(IdPlantilla, IdCatalago, LineId, Referencia, Descripcion, AccountLevel1, AccountLevel2, AccountLevel3,
+                            AccountLevel4, AccountLevel5, AccountLevel6, ComentLinea, MontoTranCurr, MontoCompCurre, MontoBaseCurre,
+                            TypeCurrency, ExchangeRate, TypeMov, IdTypeCC, GLTMCCID1, GLTMCCID2, GLTMCCID3, GLTMCCID4, GLTMCCID5,
+                            CreatedBy, CreatedFromIP, CompanyId);
+                    datos.UpdateHeaderNameTMP(IdPlantilla, Descripcion);
+                } catch (Exception e) {
+                }
+                URL = "Contabilidad/AddPlantillaContable.jsp?IdPlantilla=" + IdPlantilla + "&DescPlant=" + Descripcion;
+            }
+            response.sendRedirect(URL);
+        }// FIN DEL IF PARA GUARDAR UNA PLANTILLA Y SUS LINEAS
+
+        //----------------------------------------------------------------------------------//
+        //--------- IF PARA ACTUALIZAR UNA LINEA DE LA PLANTILLA CONTABLE -------------------//
+        //----------------------------------------------------------------------------------//        
+        if (Accion.equals("UpdateLineTemplate")) {
+            DaoContabilidad datos = new DaoContabilidad();
+            int IdPlantilla = Integer.valueOf(request.getParameter("form-IdPlantilla"));
+            int LineId = Integer.valueOf(request.getParameter("form-IdLinea"));
+            String Descripcion = request.getParameter("form-DescripcionPlantilla");
+            int IdCatalago = Integer.valueOf(request.getParameter("form-CtaContable"));
+            String AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6;
+            datos.BuscarIBGLACCNTS(IdCatalago);
+            AccountLevel1 = datos.GetAccountLevel1;
+            AccountLevel2 = datos.GetAccountLevel2;
+            AccountLevel3 = datos.GetAccountLevel3;
+            AccountLevel4 = datos.GetAccountLevel4;
+            AccountLevel5 = datos.GetAccountLevel5;
+            AccountLevel6 = datos.GetAccountLevel6;
+            String ComentLinea = request.getParameter("form-DescLinea");
+            Double MontoTranCurr = Double.valueOf(request.getParameter("form-Monto"));
+            Double MontoCompCurre = Double.valueOf(request.getParameter("form-Monto"));
+            Double MontoBaseCurre = Double.valueOf(request.getParameter("form-Monto"));
+            int TypeCurrency = 0;
+            Double ExchangeRate = 0.00;
+            String TypeMov = request.getParameter("form-TipoMov");
+            int IdTypeCC = Integer.valueOf(request.getParameter("form-TipoCC"));
+            int IdCtaCC = Integer.valueOf(request.getParameter("form-CtaCentroCost"));
+            Double GLTMCCID1 = 0.00, GLTMCCID2 = 0.00, GLTMCCID3 = 0.00, GLTMCCID4 = 0.00, GLTMCCID5 = 0.00;
+            String ModifiedBy = "Moises Romero", ModifiedFromIP = "192.168.1.10";
+            int CompanyId = 1;
+            try {
+                datos.UpdateGLTMLINEID(IdPlantilla, IdCatalago, LineId, AccountLevel1, AccountLevel2, AccountLevel3,
+                        AccountLevel4, AccountLevel5, AccountLevel6, ComentLinea, MontoTranCurr, MontoCompCurre, MontoBaseCurre,
+                        TypeCurrency, ExchangeRate, TypeMov, IdTypeCC, GLTMCCID1, GLTMCCID2, GLTMCCID3, GLTMCCID4, GLTMCCID5,
+                        ModifiedBy, ModifiedFromIP, CompanyId);
+                datos.UpdateHeaderNameTMP(IdPlantilla, Descripcion);
+            } catch (Exception e) {
+            }
+            URL = "Contabilidad/AddPlantillaContable.jsp?IdPlantilla=" + IdPlantilla + "&DescPlant=" + Descripcion;
+            response.sendRedirect(URL);
+        }/////----------FINAL IF PARA ACTUALIZAR UNA LINEA DE LA PLANTILLAS CONTABLE----------/////////
+
+        //----------------------------------------------------------------------------------//
+        //--------- IF PARA ELIMINAR UNA LINEA DE LA PLANTILLA CONTABLE -------------------//
+        //----------------------------------------------------------------------------------//
+        if (Accion.equals("DeleteLineTemplate")) {
+            int IdPlantilla = Integer.valueOf(request.getParameter("form-IdPlantilla"));
+            int LineId = Integer.valueOf(request.getParameter("form-IdLinea"));
+            int IdCatalogo = Integer.valueOf(request.getParameter("form-IdCatalogo"));
+            String Descripcion = request.getParameter("form-DescripcionPlantilla");
+            try {
+                DaoContabilidad datos = new DaoContabilidad();
+                datos.DeleteGLTMLINEID(IdPlantilla, LineId, IdCatalogo);
+            } catch (Exception e) {
+            }
+            URL = "Contabilidad/AddPlantillaContable.jsp?IdPlantilla=" + IdPlantilla + "&DescPlant=" + Descripcion;
+            response.sendRedirect(URL);
+        }//FIN DEL IF PARA ELIMINAR UNA LINEA DE LA PLANTILLA CONTABLE
+
+        //----------------------------------------------------------------------------------//
+        //---------------- IF PARA ELIMINAR LA PLANTILLA CONTABLE --------------------------//
+        //----------------------------------------------------------------------------------//
+        if (Accion.equals("DeletePlantilla")) {
+            int IdPlantilla = Integer.valueOf(request.getParameter("form-IdPlantilla"));
+            try {
+                DaoContabilidad datos = new DaoContabilidad();
+                datos.DeletePlantilla(IdPlantilla);
+
+            } catch (Exception e) {
+            }
+            URL = "Contabilidad/PlantillaComprobante.jsp";
+            response.sendRedirect(URL);
+        }//FIN DEL IF PARA ELIMINAR UNA LINEA DE LA PLANTILLA CONTABLE
+
+    }//FIN DEL VOID
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
