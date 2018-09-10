@@ -4,6 +4,7 @@
     Author     : Ing. Moises Romero Mojica
 --%>
 <%@page import="model.DaoContabilidad"%>
+<%@page import="beans.ConexionDB"%>
 <%@page import="controller.ServletContabilidad"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -67,7 +68,7 @@
         </script>        
         <title>Editar Tipo Cta</title>
     </head>
-    <%@include file="../commons/Menu.jsp" %>
+    <%@include file="../Commons/Menu.jsp" %>
     <body style="align-content: center">
         <div id="EncabezadoPagina" style="background-color: #4682B4;">
             <center>
@@ -124,7 +125,7 @@
                     <div class="col-sm-2"> 
                         <button type='button' onclick='location.href = "TiposCuenta.jsp"' class='btn btn-primary'> <<< Volver</button>
                     </div>
-                    <button type="submit" class="btn btn-primary" id="btnAgregar" name="btnAgregar" >Guardar</button>
+                    <button type="submit" class="btn btn-success" id="btnAgregar" name="btnAgregar" >Guardar</button>
                 </div>
             </form> <%--FIN FORMULARIO PARA EL ENVIO DE DATOS A LA RESERVA--%>
         </div><%--FIN DIV GRUPO DE TABS--%>

@@ -75,7 +75,7 @@
         </script>        
         <title>Nueva Cuenta Contable</title>
     </head>
-    <%@include file="../commons/Menu.jsp" %>
+    <%@include file="../Commons/Menu.jsp" %>
     <body style="align-content: center">
         <div id="EncabezadoPagina" style="background-color: #4682B4;">
             <center>
@@ -133,7 +133,7 @@
                     </div>
                     <div class="input-group checkbox-inline">
                         <span class="input-group-addon col-sm-2"><strong>Sub-Cuenta De</strong>
-                            <input type="checkbox" id="SubCuenta" name="SubCuenta">
+                            <input type="checkbox" id="SubCuenta" name="SubCuenta" disabled="">
                         </span>
                         <select class="form-control col-sm-5" id="form-CuentaPadre" name="form-CuentaPadre" disabled="true">
                             <option value=""></option>
@@ -164,7 +164,7 @@
                     <div class="col-sm-2"> 
                         <button type='button' onclick='location.href = "CatalogoContable.jsp"' class='btn btn-primary'>Volver al Catalago</button>
                     </div>
-                    <button type="submit" class="btn btn-primary" id="btnAgregar" name="btnAgregar" >Guardar</button>
+                    <button type="submit" class="btn btn-success" id="btnAgregar" name="btnAgregar" >Guardar Cambios</button>
                 </div>
             </form> <%--FIN FORMULARIO PARA EL ENVIO DE DATOS DE LA CUENTA CONTABLE --%>
         </div><%--FIN DIV GRUPO DE TABS--%>

@@ -48,7 +48,7 @@
         </script>        
         <title>Agregar Tipo de Cta Contable</title>
     </head>
-    <%@include file="../commons/Menu.jsp" %>
+    <%@include file="../Commons/Menu.jsp" %>
     <body style="align-content: center">
         <div id="EncabezadoPagina" style="background-color: #4682B4;">
             <center>
@@ -77,8 +77,6 @@
                     <%--PARAMETRO PARA LA ACCION A EJECUTAR EN EL SERVLET--%>
                     <input type="text" class="form-control" id="form-Accion" name="form-Accion" value="AddTipoCta" hidden="true">
                     <div class="input-group">
-                        <span class="input-group-addon col-sm-2"><strong>Codigo Tipo Cuenta</strong></span>
-                        <input id="form-NumeroCuenta" name="form-NumeroCuenta" type="number" class="form-control col-sm-2" required="true" min="0" style="text-align: center">
                         <span class="input-group-addon col-sm-2"><strong>Clase Tipo De Cta</strong></span>
                         <select class="form-control col-sm-2" id="form-TipoCuenta" name="form-TipoCuenta" style="text-align: center">
                             <option value=""></option>
@@ -88,10 +86,12 @@
                             <option value="I">Ingresos</option>
                             <option value="G">Gastos</option>
                         </select>
+                        <span class="input-group-addon col-sm-2"><strong>Codigo Tipo Cuenta</strong></span>
+                        <input id="form-NumeroCuenta" name="form-NumeroCuenta" type="number" class="form-control col-sm-2" required="true" min="0" style="text-align: center">
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon col-sm-2"><strong>Nombre Cuenta</strong></span>
-                        <input id="form-NombreCuenta" name="form-NombreCuenta" type="text" class="form-control col-sm-6" placeholder="Ingresa Tipo Cuenta..." required="true" style="text-align: center">
+                        <input id="form-NombreCuenta" name="form-NombreCuenta" type="text" class="form-control col-sm-6" placeholder="Ingresa Nombre Tipo Cuenta..." required="true" style="text-align: center">
                     </div>
                 </div><%--FIN DIV PARA EL CONTROL DE DATOS DEL TIPO DE CUENTA CONTABLE --%>
                 <br>
