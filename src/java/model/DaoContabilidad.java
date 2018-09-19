@@ -35,6 +35,11 @@ public class DaoContabilidad extends ConexionDB {
     public static String GetGLTMREF, GetGLTMMEMO, GetGLTMMEMODET, GetMOVEMENTTYPE;
     public Double GetGLTMAMOUNT, GetGLTMNOMAMT, GetGLTMBASAMT, GetGLTMEXCHANGE, GetGLTMCCID1, GetGLTMCCID2, GetGLTMCCID3, GetGLTMCCID4, GetGLTMCCID5;
 
+    //VARIABLES PARA EL COMPROBANTE CONTABLE
+    public static int GetCurrentIdComprobante, GetCurrentLineIdComp, GetGLBACHCCTYPID;
+    public static String GetGLBACHMEMODET, GetGLBACHMOVEMENTTYPE;
+    public static Double GetGLBACHAMOUNT;
+
     public DaoContabilidad() {
         super();
     }
@@ -506,6 +511,143 @@ public class DaoContabilidad extends ConexionDB {
         }
     }
 
+    //FUNCION PARA MANDAR  A GUARDAR EN LA BASE DE DATOS UN NUEVO REGISTRO EN LA TABLA DE COMPROBANTE CONTABLE. NOMBRE DE LA TABLA: GLBACHDST
+    public void GLADDBACH(int IdComprobante, int GLTMID, int IdCatalogo, int GLBACHLINEID, String GLBACHMREF, String GLBACHMEMO, String GLBACHDATE,
+            String AccountLevel1, String AccountLevel2, String AccountLevel3, String AccountLevel4, String AccountLevel5, String AccountLevel6,
+            String GLBACHMEMODET, Double GLBACHAMOUNT, Double GLBACHNOMAMT, Double GLBACHBASAMT, int GLBACHCURRENCY, Double GLBACHEXCHANGE,
+            String GLBACHMOVEMENTTYPE, int GLBACHCCTYPID, Double GLBACHCCID1, Double GLBACHCCID2, Double GLBACHCCID3, Double GLBACHCCID4,
+            Double GLBACHCCID5, String CreatedBy, String CreatedFromIP, int CompanyId) throws SQLException {
+        existe = false;
+        try {
+            // creamos la conexion
+            ConexionDB conn = new ConexionDB();
+            conn.Conectar();
+            // establecemos que no sea autocommit, asi controlamos la transaccion de manera manual
+            //conn.conexion.setAutoCommit(false);
+            /* instanciamos el objeto callable statement que usaremos para invocar el SP La cantidad de "?" determina la cantidad parametros que recibe el procedimiento */
+            CallableStatement cs = null;
+            cs = conn.Conectar().prepareCall("CALL GLADDBACH(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            // cargar parametros al SP
+            cs.setInt(1, IdComprobante);
+            cs.setInt(2, GLTMID);
+            cs.setInt(3, IdCatalogo);
+            cs.setInt(4, GLBACHLINEID);
+            cs.setString(5, GLBACHMREF);
+            cs.setString(6, GLBACHMEMO);
+            cs.setString(7, GLBACHDATE);
+            cs.setString(8, AccountLevel1);
+            cs.setString(9, AccountLevel2);
+            cs.setString(10, AccountLevel3);
+            cs.setString(11, AccountLevel4);
+            cs.setString(12, AccountLevel5);
+            cs.setString(13, AccountLevel6);
+            cs.setString(14, GLBACHMEMODET);
+            cs.setDouble(15, GLBACHAMOUNT);
+            cs.setDouble(16, GLBACHNOMAMT);
+            cs.setDouble(17, GLBACHBASAMT);
+            cs.setDouble(18, GLBACHCURRENCY);
+            cs.setDouble(19, GLBACHEXCHANGE);
+            cs.setString(20, GLBACHMOVEMENTTYPE);
+            cs.setInt(21, GLBACHCCTYPID);
+            cs.setDouble(22, GLBACHCCID1);
+            cs.setDouble(23, GLBACHCCID2);
+            cs.setDouble(24, GLBACHCCID3);
+            cs.setDouble(25, GLBACHCCID4);
+            cs.setDouble(26, GLBACHCCID5);
+            cs.setString(27, CreatedBy);
+            cs.setString(28, CreatedFromIP);
+            cs.setInt(29, CompanyId);
+            // ejecutar el SP
+            cs.execute();
+            // confirmar si se ejecuto sin errores
+            conn.conexion.commit();
+        } catch (Exception e) {
+            // deshacer la ejecucion en caso de error
+            conn.rollback();
+            // informar por consola
+            e.printStackTrace();
+        } finally {
+            // cerrar la conexion
+            conn.close();
+        }
+    }
+
+    //FUNCION PARA MANDAR A ACTUALIZAR EN LA BASE DE DATOS UN REGISTRO EN LA TABLA DE COMPROBANTE CONTABLE. NOMBRE DE LA TABLA: GLBACHDST
+    public void GLUPDBACH(int IdComprobante, int IdCatalogo, int GLBACHLINEID, String GLBACHMREF, String GLBACHMEMO, String GLBACHDATE,
+            String AccountLevel1, String AccountLevel2, String AccountLevel3, String AccountLevel4, String AccountLevel5, String AccountLevel6,
+            String GLBACHMEMODET, Double GLBACHAMOUNT, Double GLBACHNOMAMT, Double GLBACHBASAMT, int GLBACHCURRENCY, Double GLBACHEXCHANGE,
+            String GLBACHMOVEMENTTYPE, int GLBACHCCTYPID, Double GLBACHCCID1, Double GLBACHCCID2, Double GLBACHCCID3, Double GLBACHCCID4,
+            Double GLBACHCCID5, String ModifiedBy, String ModifiedFromIP, int CompanyId) throws SQLException {
+        existe = false;
+        try {
+            // creamos la conexion
+            ConexionDB conn = new ConexionDB();
+            conn.Conectar();
+            // establecemos que no sea autocommit, asi controlamos la transaccion de manera manual
+            //conn.conexion.setAutoCommit(false);
+            /* instanciamos el objeto callable statement que usaremos para invocar el SP La cantidad de "?" determina la cantidad parametros que recibe el procedimiento */
+            CallableStatement cs = null;
+            cs = conn.Conectar().prepareCall("CALL GLUPDBACH(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            // cargar parametros al SP
+            cs.setInt(1, IdComprobante);
+            cs.setInt(2, IdCatalogo);
+            cs.setInt(3, GLBACHLINEID);
+            cs.setString(4, GLBACHMREF);
+            cs.setString(5, GLBACHMEMO);
+            cs.setString(6, GLBACHDATE);
+            cs.setString(7, AccountLevel1);
+            cs.setString(8, AccountLevel2);
+            cs.setString(9, AccountLevel3);
+            cs.setString(10, AccountLevel4);
+            cs.setString(11, AccountLevel5);
+            cs.setString(12, AccountLevel6);
+            cs.setString(13, GLBACHMEMODET);
+            cs.setDouble(14, GLBACHAMOUNT);
+            cs.setDouble(15, GLBACHNOMAMT);
+            cs.setDouble(16, GLBACHBASAMT);
+            cs.setInt(17, GLBACHCURRENCY);
+            cs.setDouble(18, GLBACHEXCHANGE);
+            cs.setString(19, GLBACHMOVEMENTTYPE);
+            cs.setInt(20, GLBACHCCTYPID);
+            cs.setDouble(21, GLBACHCCID1);
+            cs.setDouble(22, GLBACHCCID2);
+            cs.setDouble(23, GLBACHCCID3);
+            cs.setDouble(24, GLBACHCCID4);
+            cs.setDouble(25, GLBACHCCID5);
+            cs.setString(26, ModifiedBy);
+            cs.setString(27, ModifiedFromIP);
+            cs.setInt(28, CompanyId);
+            // ejecutar el SP
+            cs.execute();
+            // confirmar si se ejecuto sin errores
+            conn.conexion.commit();
+        } catch (Exception e) {
+            // deshacer la ejecucion en caso de error
+            conn.rollback();
+            // informar por consola
+            e.printStackTrace();
+        } finally {
+            // cerrar la conexion
+            conn.close();
+        }
+    }
+
+    // FUNCION PARA ELIMINAR LA PLANTILLA CONTABLE
+    public boolean DeleteBATCH(int IdComprobante) {
+        existe = false;
+        try {
+            ConexionDB conn = new ConexionDB();
+            conn.Conectar();
+            st = conn.conexion.createStatement();
+            pst = conn.Conectar().prepareStatement("DELETE FROM IBGLBATCHDST WHERE IdComprobante=" + IdComprobante + " ");
+            pst.executeUpdate();
+            this.Cerrar();
+        } catch (Exception e) {
+
+        }
+        return existe;
+    }
+
     // FUNCION PARA ACTUALIZAR EL NOMBRE DE LA PLANTILLA
     public boolean UpdateHeaderNameTMP(int GLTMID, String GLTMMEMO) {
         existe = false;
@@ -513,7 +655,23 @@ public class DaoContabilidad extends ConexionDB {
             ConexionDB conn = new ConexionDB();
             conn.Conectar();
             st = conn.conexion.createStatement();
-            pst = conn.Conectar().prepareStatement("UPDATE IBGLTPDST SET GLTMMEMO=" + GLTMMEMO + " WHERE GLTMID=" + GLTMID + " ");
+            pst = conn.Conectar().prepareStatement("UPDATE IBGLTDPST SET GLTMMEMO='" + GLTMMEMO + "' WHERE GLTMID=" + GLTMID + " ");
+            pst.executeUpdate();
+            this.Cerrar();
+        } catch (Exception e) {
+
+        }
+        return existe;
+    }
+
+    // FUNCION PARA ACTUALIZAR EL NOMBRE DEL COMPROBANTE
+    public boolean UpdateHeaderNameBATCH(int IdComprobante, String GLBACHMEMO) {
+        existe = false;
+        try {
+            ConexionDB conn = new ConexionDB();
+            conn.Conectar();
+            st = conn.conexion.createStatement();
+            pst = conn.Conectar().prepareStatement("UPDATE IBGLBATCHDST SET GLBACHMEMO='" + GLBACHMEMO + "' WHERE IdComprobante=" + IdComprobante + " ");
             pst.executeUpdate();
             this.Cerrar();
         } catch (Exception e) {
@@ -529,7 +687,7 @@ public class DaoContabilidad extends ConexionDB {
             ConexionDB conn = new ConexionDB();
             conn.Conectar();
             st = conn.conexion.createStatement();
-            pst = conn.Conectar().prepareStatement("DELETE FROM IBGLTPDST WHERE GLTMID=" + GLTMID + " AND GLTMLINEID=" + GLTMLINEID + " AND IDCATALOGO=" + IDCATALOGO + "");
+            pst = conn.Conectar().prepareStatement("DELETE FROM IBGLTDPST WHERE GLTMID=" + GLTMID + " AND GLTMLINEID=" + GLTMLINEID + " AND IDCATALOGO=" + IDCATALOGO + "");
             pst.executeUpdate();
             this.Cerrar();
         } catch (Exception e) {
@@ -538,7 +696,7 @@ public class DaoContabilidad extends ConexionDB {
         return existe;
     }
 
-    // FUNCION PARA LOS DATOS DE LA LINEA QUE SE ESTA EDITANDO.
+    // FUNCION PARA LOS DATOS DE LA LINEA QUE SE ESTA EDITANDO DE LA PLANTILLA.
     public boolean GetDetailLine(int GLTMID, int GLTMLINEID) {
         existe = false;
         GetIdCatalogo = 0;
@@ -549,7 +707,7 @@ public class DaoContabilidad extends ConexionDB {
         try {
             conn = this.Conectar();
             st = conn.createStatement();
-            rs = st.executeQuery("SELECT GLTMID, IDCATALOGO, GLTMLINEID, GLTMREF, GLTMMEMO, AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6, GLTMMEMODET, GLTMAMOUNT, GLTMNOMAMT, GLTMBASAMT, GLTMCURRENCY, GLTMEXCHANGE, MOVEMENTTYPE, GLTMCCTYPID, GLTMCCID1, GLTMCCID2, GLTMCCID3, GLTMCCID4, GLTMCCID5, CreatedBy, CreatedOn, CreatedFromIP, ModifiedBy, ModifiedOn, ModifiedFromIP, CompanyId FROM IBGLTPDST WHERE GLTMID =" + GLTMID + " AND GLTMLINEID=" + GLTMLINEID + " ");
+            rs = st.executeQuery("SELECT GLTMID, IDCATALOGO, GLTMLINEID, GLTMREF, GLTMMEMO, AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6, GLTMMEMODET, GLTMAMOUNT, GLTMNOMAMT, GLTMBASAMT, GLTMCURRENCY, GLTMEXCHANGE, MOVEMENTTYPE, GLTMCCTYPID, GLTMCCID1, GLTMCCID2, GLTMCCID3, GLTMCCID4, GLTMCCID5, CreatedBy, CreatedOn, CreatedFromIP, ModifiedBy, ModifiedOn, ModifiedFromIP, CompanyId FROM IBGLTDPST WHERE GLTMID=" + GLTMID + " AND GLTMLINEID=" + GLTMLINEID + " ");
             if (rs.next()) {
                 existe = true;
                 GetIdCatalogo = rs.getInt(2);
@@ -565,17 +723,80 @@ public class DaoContabilidad extends ConexionDB {
         return existe;
     }
 
-    // FUNCION PARA OBTENER EL CONTEO DE NUMERO DE PLANTILLAS
-    public boolean GetCounGLTMID() {
+    // FUNCION PARA OBTENER LOS DATOS DE LA LINEA DEL COMPROBANTE QUE SE ESTA EDITANDO.
+    public boolean GetDetailLineBATCH(int IdComprobante, int GLBACHLINEID) {
         existe = false;
-        GetCurrentGLTMID = 0;
+        GetIdCatalogo = 0;
+        GetGLBACHMEMODET = "";
+        GetGLBACHAMOUNT = 0.00;
+        GetGLBACHMOVEMENTTYPE = "";
+        GetGLBACHCCTYPID = 0;
         try {
             conn = this.Conectar();
             st = conn.createStatement();
-            rs = st.executeQuery("SELECT COUNT(*)+1 GLTMID FROM IBGLTPDST");
+            rs = st.executeQuery("SELECT IdComprobante, GLTMID, IDCATALOGO, GLBACHLINEID, GLBACHMREF, GLBACHMEMO, GLBACHDATE, AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6, GLBACHMEMODET, GLBACHAMOUNT, GLBACHNOMAMT, GLBACHBASAMT, GLBACHCURRENCY, GLBACHEXCHANGE, GLBACHMOVEMENTTYPE, GLBACHCCTYPID, GLBACHCCID1, GLBACHCCID2, GLBACHCCID3, GLBACHCCID4, GLBACHCCID5, GLBACHSTATUS FROM IBGLBATCHDST WHERE IdComprobante =" + IdComprobante + " AND GLBACHLINEID=" + GLBACHLINEID + " ");
             if (rs.next()) {
                 existe = true;
-                GetCurrentGLTMID = rs.getInt("GLTMID");
+                GetIdCatalogo = rs.getInt(3);
+                GetGLBACHMEMODET = rs.getString(14);
+                GetGLBACHAMOUNT = rs.getDouble(15);
+                GetGLBACHMOVEMENTTYPE = rs.getString(20);
+                GetGLBACHCCTYPID = rs.getInt(21);
+            }
+            this.Cerrar();
+        } catch (Exception e) {
+
+        }
+        return existe;
+    }
+
+    // FUNCION PARA ELIMINAR LINEA DEL COMPROBANTE CONTABLE
+    public boolean DeleteLineBATCH(int IdComprobante, int GLBACHLINEID, int IDCATALOGO) {
+        existe = false;
+        try {
+            ConexionDB conn = new ConexionDB();
+            conn.Conectar();
+            st = conn.conexion.createStatement();
+            pst = conn.Conectar().prepareStatement("DELETE FROM IBGLBATCHDST WHERE IdComprobante=" + IdComprobante + " AND GLBACHLINEID=" + GLBACHLINEID + " AND IDCATALOGO=" + IDCATALOGO + "");
+            pst.executeUpdate();
+            this.Cerrar();
+        } catch (Exception e) {
+
+        }
+        return existe;
+    }
+
+    // FUNCION PARA OBTENER EL CONTEO DE NUMERO DE COMPROBANTES
+    public boolean GetCountIdComprobante() {
+        existe = false;
+        GetCurrentIdComprobante = 0;
+        try {
+            conn = this.Conectar();
+            st = conn.createStatement();
+            //rs = st.executeQuery("SELECT COUNT(*)+1 IdComprobante FROM IBGLBATCHDST");
+            rs = st.executeQuery("SELECT DISTINCT IdComprobante FROM IBGLBATCHDST ORDER BY IdComprobante DESC LIMIT 1");
+            if (rs.next()) {
+                existe = true;
+                GetCurrentIdComprobante = rs.getInt("IdComprobante") + 1;
+            }
+            this.Cerrar();
+        } catch (Exception e) {
+
+        }
+        return existe;
+    }
+
+    // FUNCION PARA OBTENER EL CONTEO DE LINEAS DE UN COMPROBANTE
+    public boolean GetCountLineBach(int IdComprobante) {
+        existe = false;
+        GetCurrentLineIdComp = 0;
+        try {
+            conn = this.Conectar();
+            st = conn.createStatement();
+            rs = st.executeQuery("SELECT DISTINCT GLBACHLINEID FROM IBGLBATCHDST WHERE IdComprobante=" + IdComprobante + " ORDER BY GLBACHLINEID DESC LIMIT 1");
+            if (rs.next()) {
+                existe = true;
+                GetCurrentLineIdComp = rs.getInt("GLBACHLINEID") + 1;
             }
             this.Cerrar();
         } catch (Exception e) {
@@ -585,16 +806,37 @@ public class DaoContabilidad extends ConexionDB {
     }
 
     // FUNCION PARA OBTENER EL CONTEO DE NUMERO DE PLANTILLAS
+    public boolean GetCounGLTMID() {
+        existe = false;
+        GetCurrentGLTMID = 0;
+        try {
+            conn = this.Conectar();
+            st = conn.createStatement();
+            //rs = st.executeQuery("SELECT COUNT(*)+1 GLTMID FROM IBGLTDPST");
+            rs = st.executeQuery("SELECT DISTINCT GLTMID FROM IBGLTDPST ORDER BY GLTMID DESC LIMIT 1");
+            if (rs.next()) {
+                existe = true;
+                GetCurrentGLTMID = rs.getInt("GLTMID") + 1;
+            }
+            this.Cerrar();
+        } catch (Exception e) {
+
+        }
+        return existe;
+    }
+
+    // FUNCION PARA OBTENER EL CONTEO DE LINEAS DE LA PLANTILLA
     public boolean GetCountLineID(int GLTMID) {
         existe = false;
         GetCurrentGLTMLINEID = 0;
         try {
             conn = this.Conectar();
             st = conn.createStatement();
-            rs = st.executeQuery("SELECT COUNT(*)+1 GLTMLINEID FROM IBGLTPDST WHERE GLTMID=" + GLTMID + " ");
+            //rs = st.executeQuery("SELECT COUNT(*)+1 GLTMLINEID FROM IBGLTDPST WHERE GLTMID=" + GLTMID + " ");
+            rs = st.executeQuery("SELECT DISTINCT GLTMLINEID FROM IBGLTDPST WHERE GLTMID=" + GLTMID + " ORDER BY GLTMLINEID DESC LIMIT 1");
             if (rs.next()) {
                 existe = true;
-                GetCurrentGLTMLINEID = rs.getInt("GLTMLINEID");
+                GetCurrentGLTMLINEID = rs.getInt("GLTMLINEID") + 1;
             }
             this.Cerrar();
         } catch (Exception e) {
