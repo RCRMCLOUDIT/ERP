@@ -19,8 +19,10 @@ public class ServletContabilidad extends HttpServlet {
         String URL = ""; // ESTA VARIABLE SERA PARA MANEJAR LA URL
         String Accion = request.getParameter("form-Accion");
         int Msg = 0; // ESTA VARIABLE SERA PARA CONTROLAR LOS MENSAJES DE ERROR Y ENVIARLO A LA VISTA
+
         //---------------------------------------------------------------------//
         // IF PARA AGREGAR UN NUEVO TIPO DE CUENTA CONTABLE
+        //---------------------------------------------------------------------//
         if (Accion.equals("AddTipoCta")) {
             int CompanyId = 1;
             int GLTPCLSID = Integer.valueOf(request.getParameter("form-NumeroCuenta"));
@@ -52,6 +54,7 @@ public class ServletContabilidad extends HttpServlet {
 
         //---------------------------------------------------------------------//
         // IF PARA ACTUALIZAR UN TIPO DE CUENTA CONTABLE
+        //---------------------------------------------------------------------//
         if (Accion.equals("UpdateTipoCta")) {
             int CompanyId = 1;
             int GLTPCLSID = Integer.valueOf(request.getParameter("form-NumeroCuenta"));
@@ -92,8 +95,9 @@ public class ServletContabilidad extends HttpServlet {
             response.sendRedirect(URL);
         }//FIN DEL IF PARA ACTUALIZAR UN TIPO DE CUENTA CONTABLE
 
-        //----------------------------------------------------------------------------------------------------//
+        //---------------------------------------------------------------------//
         // IF PARA REGISTRAR UNA CUENTA EN EL CATALOGO CONTABLE
+        //---------------------------------------------------------------------//
         if (Accion.equals("AddCtaContable")) {
             //RECUPERO LOS PARAMETROS DEL JSP
             int IdTipoCta = Integer.valueOf(request.getParameter("form-TipoCuenta"));
@@ -240,6 +244,7 @@ public class ServletContabilidad extends HttpServlet {
 
         //---------------------------------------------------------------------//
         // IF PARA ACTUALIZAR UNA CUENTA EN EL CATALOGO CONTABLE
+        //---------------------------------------------------------------------//
         if (Accion.equals("UpdateCtaContable")) {
             int CompanyId = 1;
             //RECUPERO LOS PARAMETROS DEL JSP
@@ -282,82 +287,84 @@ public class ServletContabilidad extends HttpServlet {
         //---------------------------------------------------------------------//
         if (Accion.equals("AddPlantillaComprobante")) {
             int IdPlantilla = Integer.valueOf(request.getParameter("form-IdPlantilla"));
-            if (IdPlantilla == 0) {
-                // SI EL ID PLANTILLA ES IGUAL A 0 QUIERE DECIR QUE ES UNA NUEVA PLANTILLA
-                DaoContabilidad datos = new DaoContabilidad();
-                String Descripcion = request.getParameter("form-DescripcionPlantilla");
-                String Referencia = "";
-                int IdCatalago = Integer.valueOf(request.getParameter("form-CtaContable"));
-                String AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6;
-                datos.BuscarIBGLACCNTS(IdCatalago);
-                AccountLevel1 = datos.GetAccountLevel1;
-                AccountLevel2 = datos.GetAccountLevel2;
-                AccountLevel3 = datos.GetAccountLevel3;
-                AccountLevel4 = datos.GetAccountLevel4;
-                AccountLevel5 = datos.GetAccountLevel5;
-                AccountLevel6 = datos.GetAccountLevel6;
-                String ComentLinea = request.getParameter("form-DescLinea");
-                Double MontoTranCurr = Double.valueOf(request.getParameter("form-Monto"));
-                Double MontoCompCurre = Double.valueOf(request.getParameter("form-Monto"));
-                Double MontoBaseCurre = Double.valueOf(request.getParameter("form-Monto"));
-                int TypeCurrency = 0;
-                Double ExchangeRate = 0.00;
-                String TypeMov = request.getParameter("form-TipoMov");
-                int IdTypeCC = Integer.valueOf(request.getParameter("form-TipoCC"));
-                int IdCtaCC = Integer.valueOf(request.getParameter("form-CtaCentroCost"));
-                Double GLTMCCID1 = 0.00, GLTMCCID2 = 0.00, GLTMCCID3 = 0.00, GLTMCCID4 = 0.00, GLTMCCID5 = 0.00;
-                String CreatedBy = "Moises Romero", CreatedFromIP = "192.168.1.10";
-                int CompanyId = 1;
-                datos.GetCounGLTMID();
-                IdPlantilla = datos.GetCurrentGLTMID;
-                int LineId = 1;
-                try {
-                    datos.GLADDTPDST(IdPlantilla, IdCatalago, LineId, Referencia, Descripcion, AccountLevel1, AccountLevel2, AccountLevel3,
-                            AccountLevel4, AccountLevel5, AccountLevel6, ComentLinea, MontoTranCurr, MontoCompCurre, MontoBaseCurre,
-                            TypeCurrency, ExchangeRate, TypeMov, IdTypeCC, GLTMCCID1, GLTMCCID2, GLTMCCID3, GLTMCCID4, GLTMCCID5,
-                            CreatedBy, CreatedFromIP, CompanyId);
-                    datos.UpdateHeaderNameTMP(IdPlantilla, Descripcion);
-                } catch (Exception e) {
+            String Descripcion = request.getParameter("form-DescripcionPlantilla");
+            int IdCatalago = Integer.valueOf(request.getParameter("form-CtaContable"));
+            DaoContabilidad datos = new DaoContabilidad();
+            if (IdCatalago > 0) {
+                if (IdPlantilla == 0) {
+                    // SI EL ID PLANTILLA ES IGUAL A 0 QUIERE DECIR QUE ES UNA NUEVA PLANTILLA
+                    String Referencia = "";
+                    String AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6;
+                    datos.BuscarIBGLACCNTS(IdCatalago);
+                    AccountLevel1 = datos.GetAccountLevel1;
+                    AccountLevel2 = datos.GetAccountLevel2;
+                    AccountLevel3 = datos.GetAccountLevel3;
+                    AccountLevel4 = datos.GetAccountLevel4;
+                    AccountLevel5 = datos.GetAccountLevel5;
+                    AccountLevel6 = datos.GetAccountLevel6;
+                    String ComentLinea = request.getParameter("form-DescLinea");
+                    Double MontoTranCurr = Double.valueOf(request.getParameter("form-Monto"));
+                    Double MontoCompCurre = Double.valueOf(request.getParameter("form-Monto"));
+                    Double MontoBaseCurre = Double.valueOf(request.getParameter("form-Monto"));
+                    int TypeCurrency = 0;
+                    Double ExchangeRate = 0.00;
+                    String TypeMov = request.getParameter("form-TipoMov");
+                    int IdTypeCC = Integer.valueOf(request.getParameter("form-TipoCC"));
+                    int IdCtaCC = Integer.valueOf(request.getParameter("form-CtaCentroCost"));
+                    Double GLTMCCID1 = 0.00, GLTMCCID2 = 0.00, GLTMCCID3 = 0.00, GLTMCCID4 = 0.00, GLTMCCID5 = 0.00;
+                    String CreatedBy = "Moises Romero", CreatedFromIP = "192.168.1.10";
+                    int CompanyId = 1;
+                    datos.GetCounGLTMID();
+                    IdPlantilla = datos.GetCurrentGLTMID;
+                    int LineId = 1;
+                    try {
+                        datos.GLADDTPDST(IdPlantilla, IdCatalago, LineId, Referencia, Descripcion, AccountLevel1, AccountLevel2, AccountLevel3,
+                                AccountLevel4, AccountLevel5, AccountLevel6, ComentLinea, MontoTranCurr, MontoCompCurre, MontoBaseCurre,
+                                TypeCurrency, ExchangeRate, TypeMov, IdTypeCC, GLTMCCID1, GLTMCCID2, GLTMCCID3, GLTMCCID4, GLTMCCID5,
+                                CreatedBy, CreatedFromIP, CompanyId);
+                    } catch (Exception e) {
+                    }
+                    URL = "Contabilidad/AddPlantillaContable.jsp?IdPlantilla=" + IdPlantilla + "&DescPlant=" + Descripcion;
+                } else {
+                    // SI EL ID PLANTILLA NO ES IGUAL A 0 QUIERE DECIR QUE ES UNA PLANTILLA QUE YA EXISTE
+                    String Referencia = "";
+                    String AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6;
+                    datos.BuscarIBGLACCNTS(IdCatalago);
+                    AccountLevel1 = datos.GetAccountLevel1;
+                    AccountLevel2 = datos.GetAccountLevel2;
+                    AccountLevel3 = datos.GetAccountLevel3;
+                    AccountLevel4 = datos.GetAccountLevel4;
+                    AccountLevel5 = datos.GetAccountLevel5;
+                    AccountLevel6 = datos.GetAccountLevel6;
+                    String ComentLinea = request.getParameter("form-DescLinea");
+                    Double MontoTranCurr = Double.valueOf(request.getParameter("form-Monto"));
+                    Double MontoCompCurre = Double.valueOf(request.getParameter("form-Monto"));
+                    Double MontoBaseCurre = Double.valueOf(request.getParameter("form-Monto"));
+                    int TypeCurrency = 0;
+                    Double ExchangeRate = 0.00;
+                    String TypeMov = request.getParameter("form-TipoMov");
+                    int IdTypeCC = Integer.valueOf(request.getParameter("form-TipoCC"));
+                    int IdCtaCC = Integer.valueOf(request.getParameter("form-CtaCentroCost"));
+                    Double GLTMCCID1 = 0.00, GLTMCCID2 = 0.00, GLTMCCID3 = 0.00, GLTMCCID4 = 0.00, GLTMCCID5 = 0.00;
+                    String CreatedBy = "Moises Romero", CreatedFromIP = "192.168.1.10";
+                    int CompanyId = 1;
+                    datos.GetCountLineID(IdPlantilla);
+                    int LineId = datos.GetCurrentGLTMLINEID;
+                    try {
+                        datos.GLADDTPDST(IdPlantilla, IdCatalago, LineId, Referencia, Descripcion, AccountLevel1, AccountLevel2, AccountLevel3,
+                                AccountLevel4, AccountLevel5, AccountLevel6, ComentLinea, MontoTranCurr, MontoCompCurre, MontoBaseCurre,
+                                TypeCurrency, ExchangeRate, TypeMov, IdTypeCC, GLTMCCID1, GLTMCCID2, GLTMCCID3, GLTMCCID4, GLTMCCID5,
+                                CreatedBy, CreatedFromIP, CompanyId);
+                        datos.UpdateHeaderNameTMP(IdPlantilla, Descripcion);
+                    } catch (Exception e) {
+                    }
+                    URL = "Contabilidad/AddPlantillaContable.jsp?IdPlantilla=" + IdPlantilla + "&DescPlant=" + Descripcion;
                 }
-                URL = "Contabilidad/AddPlantillaContable.jsp?IdPlantilla=" + IdPlantilla + "&DescPlant=" + Descripcion;
             } else {
-                // SI EL ID PLANTILLA NO ES IGUAL A 0 QUIERE DECIR QUE ES UNA PLANTILLA QUE YA EXISTE
-                DaoContabilidad datos = new DaoContabilidad();
-                String Descripcion = request.getParameter("form-DescripcionPlantilla");
-                String Referencia = "";
-                int IdCatalago = Integer.valueOf(request.getParameter("form-CtaContable"));
-                String AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6;
-                datos.BuscarIBGLACCNTS(IdCatalago);
-                AccountLevel1 = datos.GetAccountLevel1;
-                AccountLevel2 = datos.GetAccountLevel2;
-                AccountLevel3 = datos.GetAccountLevel3;
-                AccountLevel4 = datos.GetAccountLevel4;
-                AccountLevel5 = datos.GetAccountLevel5;
-                AccountLevel6 = datos.GetAccountLevel6;
-                String ComentLinea = request.getParameter("form-DescLinea");
-                Double MontoTranCurr = Double.valueOf(request.getParameter("form-Monto"));
-                Double MontoCompCurre = Double.valueOf(request.getParameter("form-Monto"));
-                Double MontoBaseCurre = Double.valueOf(request.getParameter("form-Monto"));
-                int TypeCurrency = 0;
-                Double ExchangeRate = 0.00;
-                String TypeMov = request.getParameter("form-TipoMov");
-                int IdTypeCC = Integer.valueOf(request.getParameter("form-TipoCC"));
-                int IdCtaCC = Integer.valueOf(request.getParameter("form-CtaCentroCost"));
-                Double GLTMCCID1 = 0.00, GLTMCCID2 = 0.00, GLTMCCID3 = 0.00, GLTMCCID4 = 0.00, GLTMCCID5 = 0.00;
-                String CreatedBy = "Moises Romero", CreatedFromIP = "192.168.1.10";
-                int CompanyId = 1;
-                datos.GetCountLineID(IdPlantilla);
-                int LineId = datos.GetCurrentGLTMLINEID;
-                try {
-                    datos.GLADDTPDST(IdPlantilla, IdCatalago, LineId, Referencia, Descripcion, AccountLevel1, AccountLevel2, AccountLevel3,
-                            AccountLevel4, AccountLevel5, AccountLevel6, ComentLinea, MontoTranCurr, MontoCompCurre, MontoBaseCurre,
-                            TypeCurrency, ExchangeRate, TypeMov, IdTypeCC, GLTMCCID1, GLTMCCID2, GLTMCCID3, GLTMCCID4, GLTMCCID5,
-                            CreatedBy, CreatedFromIP, CompanyId);
-                    datos.UpdateHeaderNameTMP(IdPlantilla, Descripcion);
-                } catch (Exception e) {
-                }
+                datos.UpdateHeaderNameTMP(IdPlantilla, Descripcion);
                 URL = "Contabilidad/AddPlantillaContable.jsp?IdPlantilla=" + IdPlantilla + "&DescPlant=" + Descripcion;
             }
+
             response.sendRedirect(URL);
         }// FIN DEL IF PARA GUARDAR UNA PLANTILLA Y SUS LINEAS
 
@@ -395,7 +402,6 @@ public class ServletContabilidad extends HttpServlet {
                         AccountLevel4, AccountLevel5, AccountLevel6, ComentLinea, MontoTranCurr, MontoCompCurre, MontoBaseCurre,
                         TypeCurrency, ExchangeRate, TypeMov, IdTypeCC, GLTMCCID1, GLTMCCID2, GLTMCCID3, GLTMCCID4, GLTMCCID5,
                         ModifiedBy, ModifiedFromIP, CompanyId);
-                datos.UpdateHeaderNameTMP(IdPlantilla, Descripcion);
             } catch (Exception e) {
             }
             URL = "Contabilidad/AddPlantillaContable.jsp?IdPlantilla=" + IdPlantilla + "&DescPlant=" + Descripcion;
@@ -433,6 +439,166 @@ public class ServletContabilidad extends HttpServlet {
             URL = "Contabilidad/PlantillaComprobante.jsp";
             response.sendRedirect(URL);
         }//FIN DEL IF PARA ELIMINAR UNA LINEA DE LA PLANTILLA CONTABLE
+
+        //----------------------------------------------------------------------------------//
+        //---------------- IF PARA AGREGAR COMPROBANTE CONTABLE ----------------------------//
+        //----------------------------------------------------------------------------------//
+        if (Accion.equals("AddComprobanteContable")) {
+            int IdComprobante = Integer.valueOf(request.getParameter("form-IdComprobante"));
+            int IdPlantilla = Integer.valueOf(request.getParameter("form-IdPlantilla"));
+            String Descripcion = request.getParameter("form-DescripcionComprobante");
+            String NumeroReferencia = request.getParameter("form-NumeroReferencia");
+            String Fecha = request.getParameter("Fecha");
+            DaoContabilidad datos = new DaoContabilidad();
+            //datos.UpdateHeaderNameTMP(IdPlantilla, Descripcion);
+            if (IdComprobante == 0) {
+                // SI EL ID COMPROBANTE ES IGUAL A 0 QUIERE DECIR QUE ES UN NUEVO COMPROBANTE
+                int IdCatalago = Integer.valueOf(request.getParameter("form-CtaContable"));
+                String AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6;
+                datos.BuscarIBGLACCNTS(IdCatalago);
+                AccountLevel1 = datos.GetAccountLevel1;
+                AccountLevel2 = datos.GetAccountLevel2;
+                AccountLevel3 = datos.GetAccountLevel3;
+                AccountLevel4 = datos.GetAccountLevel4;
+                AccountLevel5 = datos.GetAccountLevel5;
+                AccountLevel6 = datos.GetAccountLevel6;
+                String ComentLinea = request.getParameter("form-DescLinea");
+                Double MontoTranCurr = Double.valueOf(request.getParameter("form-Monto"));
+                Double MontoCompCurre = Double.valueOf(request.getParameter("form-Monto"));
+                Double MontoBaseCurre = Double.valueOf(request.getParameter("form-Monto"));
+                int TypeCurrency = 0;
+                Double ExchangeRate = 0.00;
+                String TypeMov = request.getParameter("form-TipoMov");
+                int IdTypeCC = Integer.valueOf(request.getParameter("form-TipoCC"));
+                int IdCtaCC = Integer.valueOf(request.getParameter("form-CtaCentroCost"));
+                Double GLTMCCID1 = 0.00, GLTMCCID2 = 0.00, GLTMCCID3 = 0.00, GLTMCCID4 = 0.00, GLTMCCID5 = 0.00;
+                String CreatedBy = "Moises Romero", CreatedFromIP = "192.168.1.10";
+                int CompanyId = 1;
+                datos.GetCountIdComprobante();
+                IdComprobante = datos.GetCurrentIdComprobante;
+                int LineId = 1;
+                try {
+                    datos.GLADDBACH(IdComprobante, IdPlantilla, IdCatalago, LineId, NumeroReferencia, Descripcion, Fecha,
+                            AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6, ComentLinea,
+                            MontoTranCurr, MontoCompCurre, MontoBaseCurre, TypeCurrency, ExchangeRate, TypeMov, IdTypeCC,
+                            GLTMCCID1, GLTMCCID2, GLTMCCID3, GLTMCCID4, GLTMCCID5, CreatedBy, CreatedFromIP, CompanyId);
+                } catch (Exception e) {
+                }
+                URL = "Contabilidad/AgregarComprobante.jsp?IdComprobante=" + IdComprobante + "&DescComp=" + Descripcion + "&RefNum=" + NumeroReferencia + "&Fecha=" + Fecha;
+            } else {
+                // SI EL ID PLANTILLA NO ES IGUAL A 0 QUIERE DECIR QUE ES UNA PLANTILLA QUE YA EXISTE
+                int IdCatalago = Integer.valueOf(request.getParameter("form-CtaContable"));
+                String AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6;
+                datos.BuscarIBGLACCNTS(IdCatalago);
+                AccountLevel1 = datos.GetAccountLevel1;
+                AccountLevel2 = datos.GetAccountLevel2;
+                AccountLevel3 = datos.GetAccountLevel3;
+                AccountLevel4 = datos.GetAccountLevel4;
+                AccountLevel5 = datos.GetAccountLevel5;
+                AccountLevel6 = datos.GetAccountLevel6;
+                String ComentLinea = request.getParameter("form-DescLinea");
+                Double MontoTranCurr = Double.valueOf(request.getParameter("form-Monto"));
+                Double MontoCompCurre = Double.valueOf(request.getParameter("form-Monto"));
+                Double MontoBaseCurre = Double.valueOf(request.getParameter("form-Monto"));
+                int TypeCurrency = 0;
+                Double ExchangeRate = 0.00;
+                String TypeMov = request.getParameter("form-TipoMov");
+                int IdTypeCC = Integer.valueOf(request.getParameter("form-TipoCC"));
+                int IdCtaCC = Integer.valueOf(request.getParameter("form-CtaCentroCost"));
+                Double GLTMCCID1 = 0.00, GLTMCCID2 = 0.00, GLTMCCID3 = 0.00, GLTMCCID4 = 0.00, GLTMCCID5 = 0.00;
+                String CreatedBy = "Moises Romero", CreatedFromIP = "192.168.1.10";
+                int CompanyId = 1;
+                datos.GetCountLineBach(IdComprobante);
+                int LineId = datos.GetCurrentLineIdComp;
+                try {
+                    datos.GLADDBACH(IdComprobante, IdPlantilla, IdCatalago, LineId, NumeroReferencia, Descripcion, Fecha,
+                            AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6, ComentLinea,
+                            MontoTranCurr, MontoCompCurre, MontoBaseCurre, TypeCurrency, ExchangeRate, TypeMov, IdTypeCC,
+                            GLTMCCID1, GLTMCCID2, GLTMCCID3, GLTMCCID4, GLTMCCID5, CreatedBy, CreatedFromIP, CompanyId);
+                } catch (Exception e) {
+                }
+                URL = "Contabilidad/AgregarComprobante.jsp?IdComprobante=" + IdComprobante + "&DescComp=" + Descripcion + "&RefNum=" + NumeroReferencia + "&Fecha=" + Fecha;
+            }
+            response.sendRedirect(URL);
+        }// FINAL IF PARA AGREGAR DATOS DEL COMPROBANTE
+
+        //----------------------------------------------------------------------------------//
+        //--------- IF PARA ACTUALIZAR UNA LINEA DEL COMPROBANTE CONTABLE ------------------//
+        //----------------------------------------------------------------------------------//        
+        if (Accion.equals("UpdateLineBATCH")) {
+            DaoContabilidad datos = new DaoContabilidad();
+            int IdComprobante = Integer.valueOf(request.getParameter("form-IdComprobante"));
+            int LineId = Integer.valueOf(request.getParameter("form-IdLinea"));
+            String Descripcion = request.getParameter("form-DescripcionComprobante");
+            int IdCatalago = Integer.valueOf(request.getParameter("form-CtaContable"));
+            String NumeroReferencia = request.getParameter("form-NumeroReferencia");
+            String Fecha = request.getParameter("Fecha");
+            String AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6;
+            datos.BuscarIBGLACCNTS(IdCatalago);
+            AccountLevel1 = datos.GetAccountLevel1;
+            AccountLevel2 = datos.GetAccountLevel2;
+            AccountLevel3 = datos.GetAccountLevel3;
+            AccountLevel4 = datos.GetAccountLevel4;
+            AccountLevel5 = datos.GetAccountLevel5;
+            AccountLevel6 = datos.GetAccountLevel6;
+            String ComentLinea = request.getParameter("form-DescLinea");
+            Double MontoTranCurr = Double.valueOf(request.getParameter("form-Monto"));
+            Double MontoCompCurre = Double.valueOf(request.getParameter("form-Monto"));
+            Double MontoBaseCurre = Double.valueOf(request.getParameter("form-Monto"));
+            int TypeCurrency = 0;
+            Double ExchangeRate = 0.00;
+            String TypeMov = request.getParameter("form-TipoMov");
+            int IdTypeCC = Integer.valueOf(request.getParameter("form-TipoCC"));
+            int IdCtaCC = Integer.valueOf(request.getParameter("form-CtaCentroCost"));
+            Double GLTMCCID1 = 0.00, GLTMCCID2 = 0.00, GLTMCCID3 = 0.00, GLTMCCID4 = 0.00, GLTMCCID5 = 0.00;
+            String ModifiedBy = "Moises Romero", ModifiedFromIP = "192.168.1.10";
+            int CompanyId = 1;
+            try {
+                datos.GLUPDBACH(IdComprobante, IdCatalago, LineId, NumeroReferencia, Descripcion, Fecha, AccountLevel1, AccountLevel2, AccountLevel3,
+                        AccountLevel4, AccountLevel5, AccountLevel6, ComentLinea, MontoTranCurr, MontoCompCurre, MontoBaseCurre,
+                        TypeCurrency, ExchangeRate, TypeMov, IdTypeCC, GLTMCCID1, GLTMCCID2, GLTMCCID3, GLTMCCID4, GLTMCCID5,
+                        ModifiedBy, ModifiedFromIP, CompanyId);
+            } catch (Exception e) {
+            }
+            URL = "Contabilidad/AgregarComprobante.jsp?IdComprobante=" + IdComprobante + "&DescComp=" + Descripcion + "&RefNum=" + NumeroReferencia + "&Fecha=" + Fecha;
+            response.sendRedirect(URL);
+        }/////----------FINAL IF PARA ACTUALIZAR UNA LINEA DEL COMPROBANTE CONTABLE----------/////////
+
+        //----------------------------------------------------------------------------------//
+        //--------- IF PARA ELIMINAR UNA LINEA DEL COMPROBANTE CONTABLE -------------------//
+        //----------------------------------------------------------------------------------//
+        if (Accion.equals("DeleteLineBATCH")) {
+            int IdComprobante = Integer.valueOf(request.getParameter("form-IdComprobante"));
+            int LineId = Integer.valueOf(request.getParameter("form-IdLinea"));
+            int IdCatalogo = Integer.valueOf(request.getParameter("form-IdCatalogo"));
+            String Descripcion = request.getParameter("form-DescripcionComprobante");
+            String NumeroReferencia = request.getParameter("form-NumeroReferencia");
+            String Fecha = request.getParameter("Fecha");
+            try {
+                DaoContabilidad datos = new DaoContabilidad();
+                datos.DeleteLineBATCH(IdComprobante, LineId, IdCatalogo);
+            } catch (Exception e) {
+            }
+            URL = "Contabilidad/AgregarComprobante.jsp?IdComprobante=" + IdComprobante + "&DescComp=" + Descripcion + "&RefNum=" + NumeroReferencia + "&Fecha=" + Fecha;
+            response.sendRedirect(URL);
+        }//FIN DEL IF PARA ELIMINAR UNA LINEA DEL COMPROBANTE CONTABLE
+
+        //----------------------------------------------------------------------------------//
+        //---------------- IF PARA ELIMINAR EL COMPROBANTE CONTABLE-------------------------//
+        //----------------------------------------------------------------------------------//
+        if (Accion.equals("DeleteBATCH")) {
+            int IdComprobante = Integer.valueOf(request.getParameter("form-IdComprobante"));
+            try {
+                DaoContabilidad datos = new DaoContabilidad();
+                datos.DeleteBATCH(IdComprobante);
+
+            } catch (Exception e) {
+            }
+            URL = "Contabilidad/ListarComprobante.jsp";
+            response.sendRedirect(URL);
+        }//FIN DEL IF PARA ELIMINAR COMPROBANTE CONTABLE
+        
+        
 
     }//FIN DEL VOID
 
