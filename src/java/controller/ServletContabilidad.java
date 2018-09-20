@@ -78,11 +78,11 @@ public class ServletContabilidad extends HttpServlet {
             DaoContabilidad datos = new DaoContabilidad();
             datos.VerifarNombre(GLTPNAME);
             //TRABAJAR MEJORAR ESTA PARTE PARA HACER BIEN LA ACTUALIZACION DE DATOS. DE TIPO DE CUENTA
-            String GetGLTPNAME = datos.GetGLTPNAME;
             int GetGLTPCLSID = datos.GetGLTPCLSID;
-            if (GLTPCLSID != GetGLTPCLSID) {
+            if (GLTPCLSID == GetGLTPCLSID) {
                 try {
-                    datos.GLUPDTYPACC(GLTPCLSID, GLTPNAME, GLTPACCID, "Moises Romero", "");
+                    datos.GLUPDTYPACC(GLTPCLSID, GLTPNAME, GLTPACCID, "Moises Romero", "192.168.0.1");
+                    URL = "Contabilidad/TiposCuenta.jsp";
                 } catch (Exception e) {
                     e.getMessage();
                 }
@@ -91,7 +91,6 @@ public class ServletContabilidad extends HttpServlet {
                 //MENSAJE = 1 EL NOMBRE DE CUENTA YA EXISTE
                 URL = "Contabilidad/ModificarTipoCuenta.jsp?GLTPCLSID=" + GLTPCLSID + "&Msg=" + Msg;
             }
-            URL = "Contabilidad/TiposCuenta.jsp";
             response.sendRedirect(URL);
         }//FIN DEL IF PARA ACTUALIZAR UN TIPO DE CUENTA CONTABLE
 
@@ -597,8 +596,6 @@ public class ServletContabilidad extends HttpServlet {
             URL = "Contabilidad/ListarComprobante.jsp";
             response.sendRedirect(URL);
         }//FIN DEL IF PARA ELIMINAR COMPROBANTE CONTABLE
-        
-        
 
     }//FIN DEL VOID
 
