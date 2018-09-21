@@ -83,12 +83,7 @@
                             <%  try {
                                     ConexionDB conn = new ConexionDB();
                                     conn.Conectar();
-                                    String consulta = "";
-                                    if (request.getParameter("IdTipoCuenta") != null && Integer.valueOf(request.getParameter("IdTipoCuenta")) > 0) {
-                                        consulta = "SELECT IDCATALOGO, AccountNumber, AccountName, AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6 FROM `IBGLACCNTS` WHERE Active='S' AND GLTPCLSID = " + Integer.valueOf(request.getParameter("IdTipoCuenta")) + " ORDER BY `AccountNumber` ASC";
-                                    } else {
-                                        consulta = "SELECT IDCATALOGO, AccountNumber, AccountName, AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6 FROM `IBGLACCNTS` WHERE Active='S'  ORDER BY `AccountNumber` ASC";
-                                    }
+                                    String consulta = "SELECT IDCATALOGO, AccountNumber, AccountName, AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6, Isacctaccessible FROM `IBGLACCNTS` WHERE Active='S'  ORDER BY `AccountNumber` ASC";
                                     ResultSet rs = null;
                                     PreparedStatement pst = null;
                                     pst = conn.conexion.prepareStatement(consulta);
@@ -101,30 +96,63 @@
                                             //INDEX 7 = ACCOUNT LEVEL4; INDEX 8 = ACCOUNT LEVEL5; INDEX 9 = ACCOUNT LEVEL6
                                             if (Integer.valueOf(rs.getString(4)) > 0 && Integer.valueOf(rs.getString(5)) == 0 && Integer.valueOf(rs.getString(6)) == 0) {
                                                 //ES DE NIVEL 1
-                                                out.println("<option value='" + rs.getInt(1) + "'>" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                if (rs.getString(10).equals("S")) {
+                                                    out.println("<option value='" + rs.getInt(1) + "'>" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                } else {
+                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                }
+
                                             }
                                             if (Integer.valueOf(rs.getString(5)) > 0 && Integer.valueOf(rs.getString(6)) == 0 && Integer.valueOf(rs.getString(7)) == 0) {
                                                 //ES DE NIVEL 2
-                                                out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                if (rs.getString(10).equals("S")) {
+                                                    out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                } else {
+                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                }
+
                                             }
                                             if (Integer.valueOf(rs.getString(6)) > 0 && Integer.valueOf(rs.getString(7)) == 0 && Integer.valueOf(rs.getString(8)) == 0) {
                                                 //ES DE NIVEL 3
-                                                out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                if (rs.getString(10).equals("S")) {
+                                                    out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                } else {
+                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                }
+
                                             }
                                             if (Integer.valueOf(rs.getString(7)) > 0 && Integer.valueOf(rs.getString(8)) == 0 && Integer.valueOf(rs.getString(9)) == 0) {
                                                 //ES DE NIVEL 4
-                                                out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                if (rs.getString(10).equals("S")) {
+                                                    out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                } else {
+                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                }
+
                                             }
                                             if (Integer.valueOf(rs.getString(8)) > 0 && Integer.valueOf(rs.getString(9)) == 0) {
                                                 //ES DE NIVEL 5
-                                                out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                if (rs.getString(10).equals("S")) {
+                                                    out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                } else {
+                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                }
+
                                             }
                                             if (Integer.valueOf(rs.getString(9)) > 0) {
                                                 //ES DE NIVEL 6
-                                                out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                if (rs.getString(10).equals("S")) {
+                                                    out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                } else {
+                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                }
+
                                             }
                                         }
                                     }; // fin while 
+                                    conn.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+                                    rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+                                    pst.close(); //CIERRO EL PREPARED STATEMENT
                                 } //fin try no usar ; al final de dos o mas catchs 
                                 catch (SQLException e) {
                                 };%>
@@ -212,12 +240,15 @@
                                             + "</TD>");
                                     out.println("</TR>");
                                 }; // fin while 
+                                conn.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+                                rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+                                pst.close(); //CIERRO EL PREPARED STATEMENT
                                 //LINEA PARA MOSTRAR LOS TOTAL CREDITOS Y DEBITOS.
                                 out.println("<TR>");
                                 out.println("<TD style='color: #000000;'></TD>");
                                 if (TotalCreditos == TotalDebitos) {
                                     out.println("<TD colspan='2' style='color: #FFFFFF;'><input class='form-control bg-success text-white' id='form-Message' name='form-Message' type='text' value='Creditos Y Debitos Balanceados' readonly></TD>");
-                                }else{
+                                } else {
                                     out.println("<TD colspan='2' style='color: #FFFFFF;'><input class='form-control bg-danger text-white' id='form-Message' name='form-Message' type='text' value='Creditos Y Debitos Desbalanceados' readonly></TD>");
                                 }
 

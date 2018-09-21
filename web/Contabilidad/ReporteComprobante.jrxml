@@ -145,42 +145,42 @@
 			<staticText>
 				<reportElement x="1" y="4" width="100" height="20" uuid="c88ca517-cb85-496b-a666-5b94f1e070cc"/>
 				<textElement textAlignment="Center">
-					<font isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Numero de Cuenta]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="100" y="4" width="157" height="20" uuid="4210ceed-8e95-4d6f-8164-79fb7119bcf7"/>
 				<textElement textAlignment="Center">
-					<font isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nombre Cuenta Contable]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="256" y="4" width="131" height="20" uuid="5d60b8ff-1a26-44ca-9b5e-80fcab50ca8d"/>
 				<textElement textAlignment="Center">
-					<font isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Concepto Movimiento]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="386" y="4" width="100" height="20" uuid="c66f2b39-b53c-4931-b5c3-f036644ddd81"/>
 				<textElement textAlignment="Center">
-					<font isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Debito]]></text>
+				<text><![CDATA[Débito]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="485" y="4" width="100" height="20" uuid="2274527d-dec8-4d29-966e-b504c65dfc11"/>
 				<textElement textAlignment="Center">
-					<font isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Crédito]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="584" y="4" width="215" height="20" uuid="3f81dd39-288b-4b3b-b09c-64ca8d892a86"/>
 				<textElement textAlignment="Center">
-					<font isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Centro de Costos]]></text>
 			</staticText>
@@ -203,12 +203,12 @@
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{GLBACHMEMODET}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="487" y="0" width="100" height="20" uuid="6ee97304-b322-4cf3-bf73-0032792fe596"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[( $F{GLBACHMOVEMENTTYPE}.equals("C") ? ($F{GLBACHAMOUNT}):(null) )]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="388" y="0" width="100" height="20" uuid="761d01d2-d351-4aaa-9766-4a559cac64b8"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[( $F{GLBACHMOVEMENTTYPE}.equals("D") ? ($F{GLBACHAMOUNT}):(null))]]></textFieldExpression>
@@ -264,14 +264,14 @@
 				</textElement>
 				<text><![CDATA[TOTALES]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="385" y="8" width="100" height="20" uuid="19e28e2d-1b74-4c34-9060-7a2a763d7783"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{TOTALDEBITOS}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="487" y="8" width="97" height="20" uuid="3d93164f-9e69-430f-b823-e9671b769e1d"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>

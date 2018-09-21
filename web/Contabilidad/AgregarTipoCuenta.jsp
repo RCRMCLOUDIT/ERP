@@ -87,11 +87,19 @@
                             <option value="G">Gastos</option>
                         </select>
                         <span class="input-group-addon col-sm-2"><strong>Codigo Tipo Cuenta</strong></span>
+                        <%if (request.getParameter("NombreCuenta") != null) {%>
+                        <input id="form-NumeroCuenta" name="form-NumeroCuenta" type="number" class="form-control col-sm-2" required="true" min="0" style="text-align: center" value="<%=request.getParameter("NumeroCuenta")%>">
+                        <%} else {%>
                         <input id="form-NumeroCuenta" name="form-NumeroCuenta" type="number" class="form-control col-sm-2" required="true" min="0" style="text-align: center">
+                        <%}%>
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon col-sm-2"><strong>Nombre Cuenta</strong></span>
+                        <%if (request.getParameter("NombreCuenta") != null) {%>
+                        <input id="form-NombreCuenta" name="form-NombreCuenta" type="text" class="form-control col-sm-6" placeholder="Ingresa Nombre Tipo Cuenta..." required="true" style="text-align: center" value="<%=request.getParameter("NombreCuenta")%>">
+                        <%} else {%>
                         <input id="form-NombreCuenta" name="form-NombreCuenta" type="text" class="form-control col-sm-6" placeholder="Ingresa Nombre Tipo Cuenta..." required="true" style="text-align: center">
+                        <%}%>
                     </div>
                 </div><%--FIN DIV PARA EL CONTROL DE DATOS DEL TIPO DE CUENTA CONTABLE --%>
                 <br>

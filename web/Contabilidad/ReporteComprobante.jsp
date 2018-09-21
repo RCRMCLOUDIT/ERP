@@ -18,7 +18,7 @@
     <body>
         <%
             int IdComprobante = Integer.valueOf(request.getParameter("IdComprobante"));
-            String NombreEmpresa = "MUNKEL MEDICAL";
+            String NombreEmpresa = "MEDICAL MUNKEL";
             /*Parametros para realizar la conexion*/
             ConexionDB conn = new ConexionDB();
             /*Establecemos la ruta del reporte*/

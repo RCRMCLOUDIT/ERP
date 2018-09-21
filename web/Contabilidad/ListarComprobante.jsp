@@ -105,6 +105,9 @@
                                                         + "</TD>");
                                                 out.println("</TR>");
                                             }; // fin while 
+                                            conn.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+                                            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+                                            pst.close(); //CIERRO EL PREPARED STATEMENT.
                                         } //fin try no usar ; al final de dos o mas catchs 
                                         catch (SQLException e) {
                                         };%>

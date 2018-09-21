@@ -1,6 +1,7 @@
 <%-- 
     Document   : AgregarComprobante
     Created on : 09-11-2018, 01:53:25 PM
+    Owner:     : Cloud IT Systems, S.A
     Author     : Ing. Moises Romero Mojica
 --%>
 <%@page import="java.sql.SQLException"%>
@@ -129,7 +130,7 @@
                             <%  try {
                                     ConexionDB conn = new ConexionDB();
                                     conn.Conectar();
-                                    String consulta = "SELECT IDCATALOGO, AccountNumber, AccountName, AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6 FROM `IBGLACCNTS` WHERE Active='S'  ORDER BY `AccountNumber` ASC";
+                                    String consulta = "SELECT IDCATALOGO, AccountNumber, AccountName, AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6, Isacctaccessible FROM `IBGLACCNTS` WHERE Active='S'  ORDER BY `AccountNumber` ASC";
                                     ResultSet rs = null;
                                     PreparedStatement pst = null;
                                     pst = conn.conexion.prepareStatement(consulta);
@@ -142,30 +143,63 @@
                                             //INDEX 7 = ACCOUNT LEVEL4; INDEX 8 = ACCOUNT LEVEL5; INDEX 9 = ACCOUNT LEVEL6
                                             if (Integer.valueOf(rs.getString(4)) > 0 && Integer.valueOf(rs.getString(5)) == 0 && Integer.valueOf(rs.getString(6)) == 0) {
                                                 //ES DE NIVEL 1
-                                                out.println("<option value='" + rs.getInt(1) + "'>" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                if (rs.getString(10).equals("S")) {
+                                                    out.println("<option value='" + rs.getInt(1) + "'>" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                } else {
+                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                }
+
                                             }
                                             if (Integer.valueOf(rs.getString(5)) > 0 && Integer.valueOf(rs.getString(6)) == 0 && Integer.valueOf(rs.getString(7)) == 0) {
                                                 //ES DE NIVEL 2
-                                                out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                if (rs.getString(10).equals("S")) {
+                                                    out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                } else {
+                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                }
+
                                             }
                                             if (Integer.valueOf(rs.getString(6)) > 0 && Integer.valueOf(rs.getString(7)) == 0 && Integer.valueOf(rs.getString(8)) == 0) {
                                                 //ES DE NIVEL 3
-                                                out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                if (rs.getString(10).equals("S")) {
+                                                    out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                } else {
+                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                }
+
                                             }
                                             if (Integer.valueOf(rs.getString(7)) > 0 && Integer.valueOf(rs.getString(8)) == 0 && Integer.valueOf(rs.getString(9)) == 0) {
                                                 //ES DE NIVEL 4
-                                                out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                if (rs.getString(10).equals("S")) {
+                                                    out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                } else {
+                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                }
+
                                             }
                                             if (Integer.valueOf(rs.getString(8)) > 0 && Integer.valueOf(rs.getString(9)) == 0) {
                                                 //ES DE NIVEL 5
-                                                out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                if (rs.getString(10).equals("S")) {
+                                                    out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                } else {
+                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                }
+
                                             }
                                             if (Integer.valueOf(rs.getString(9)) > 0) {
                                                 //ES DE NIVEL 6
-                                                out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                if (rs.getString(10).equals("S")) {
+                                                    out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                } else {
+                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                }
+
                                             }
                                         }
                                     }; // fin while 
+                                    conn.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+                                    rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+                                    pst.close(); //CIERRO EL PREPARED STATEMENT
                                 } //fin try no usar ; al final de dos o mas catchs 
                                 catch (SQLException e) {
                                 };%>
@@ -255,6 +289,9 @@
                                             + "</TD>");
                                     out.println("</TR>");
                                 }; // fin while 
+                                conn.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+                                rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+                                pst.close(); //CIERRO EL PREPARED STATEMENT.
                                 //LINEA PARA MOSTRAR LOS TOTAL CREDITOS Y DEBITOS.
                                 out.println("<TR>");
                                 out.println("<TD style='color: #000000;'></TD>");
@@ -267,16 +304,7 @@
                                 out.println("<TD style='color: #000000;'>" + TotalCreditos + "</TD>");
                                 out.println("<TD style='color: #000000; text-align: right;'><Strong>Total Debitos</Strong></TD>");
                                 out.println("<TD style='color: #000000;'>" + TotalDebitos + "</TD>");
-                                out.println("<TD style='color: #000000;'>"
-                                        + "<form id='DeleteLineBATCH' role='form' action='../ServletContabilidad' method='POST' onsubmit='return confirmar();'>"
-                                        + "<input id='form-Accion' name='form-Accion' type='text' value='DeleteLineBATCH' hidden='true'>"
-                                        + "<input id='form-IdComprobante' name='form-IdComprobante' type='text' value='" + request.getParameter("IdComprobante") + "' hidden='true'>"
-                                        + "<input id='form-DescripcionComprobante' name='form-DescripcionComprobante' type='text' value='" + request.getParameter("DescComp") + "' hidden='true'>"
-                                        + "<input id='form-NumeroReferencia' name='form-NumeroReferencia' type='text' value='" + request.getParameter("RefNum") + "' hidden='true'>"
-                                        + "<input id='Fecha' name='Fecha' type='text' value='" + request.getParameter("Fecha") + "' hidden='true'>"
-                                        + "<button type='submit' class='btn btn-success' id='btnEliminarLinea' name='btnEliminarLinea'>Aprobar Comprobante</button>"
-                                        + "</form>"
-                                        + "</TD>");
+                                out.println("<TD style='color: #000000;'></TD>");
                                 out.println("</TR>");
                             } //fin try no usar ; al final de dos o mas catchs 
                             catch (SQLException e) {
@@ -286,10 +314,23 @@
             </div>
         </div><%--FIN DIV GRUPO DE TABS--%>
         <br>
-        <div class="col-2 offset-6"> 
-            <%if (request.getParameter("IdComprobante") != null) {%>
-            <a href="ReporteComprobante.jsp?IdComprobante=<%=request.getParameter("IdComprobante")%>" target="_blank" class="btn btn-warning text-white">Imprimir Comprobante</a>
-            <%}%>        
+        <div class="row form-group">
+            <div class="col-2"></div>
+            <div class="col-2">
+                <form id='AprobarBATCH' role='form' action='../ServletContabilidad' method='POST' onsubmit='return confirmar();'>
+                    <input id='form-Accion' name='form-Accion' type='text' value='AprobarBATCH' hidden='true'>
+                    <input id='form-IdComprobante' name='form-IdComprobante' type='text' value='" <%=request.getParameter("IdComprobante")%> "' hidden='true'>
+                    <input id='form-DescripcionComprobante' name='form-DescripcionComprobante' type='text' value='"<%=request.getParameter("DescComp")%>"' hidden='true'>
+                    <input id='form-NumeroReferencia' name='form-NumeroReferencia' type='text' value='"<%=request.getParameter("RefNum")%>"' hidden='true'>
+                    <input id='Fecha' name='Fecha' type='text' value='"<%=request.getParameter("Fecha")%>"' hidden='true'>
+                    <button type='submit' class='btn btn-success' id='btnAprobarBATCH' name='btnAprobarBATCH'>Aprobar Comprobante</button>
+                </form>
+            </div>
+            <div class="col-2">
+                <%if (request.getParameter("IdComprobante") != null) {%>
+                <a href="ReporteComprobante.jsp?IdComprobante=<%=request.getParameter("IdComprobante")%>" target="_blank" class="btn btn-warning text-white">Imprimir Comprobante</a>
+                <%}%>                            
+            </div>            
         </div>
         <br>
     </body>

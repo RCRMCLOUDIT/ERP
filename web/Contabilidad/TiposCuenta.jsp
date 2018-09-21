@@ -84,13 +84,13 @@
                                 </thead>
                                 <tbody style="background-color: #C7C6C6;">
                                     <%try {
-                                            ConexionDB conn = new ConexionDB();
-                                            conn.Conectar();
-                                            ResultSet rs = null;
-                                            PreparedStatement pst = null;
-                                            pst = conn.conexion.prepareStatement("SELECT * FROM `IBGLTYPACC`");
-                                            rs = pst.executeQuery();
-                                            rs = pst.executeQuery();
+                                            ConexionDB conn = new ConexionDB(); //IMPORTO LA CLASE DONDE MANEJO LA CONEXION A BASE DE DATOS.
+                                            conn.Conectar(); //ABRO LA CONEXION A LA BD
+                                            ResultSet rs = null; // DECLARO VARIABLE QUE CONTENDRA LOS RESULTADOS DE LA CONSULTA
+                                            PreparedStatement pst = null; //VARIBLE PARA EJECUTAR LA CONSULTA EN LA BD 
+                                            pst = conn.conexion.prepareStatement("SELECT * FROM `IBGLTYPACC`"); //LE PASO LA CCONSULTA A EJECUTAR
+                                            rs = pst.executeQuery();//CON ESTE COMANDO EJECUTO LA CONSULTA
+                                            //CON EL EL WHILE RECORRO LOS RESULTADOS 
                                             while (rs.next()) {
                                                 out.println("<TR style='text-align: center;'>");
                                                 out.println("<TD style='color: #000000; text-align: right;'>" + rs.getInt(2) + "</TD>");//CODIGO DEL TIPO DE CTA
@@ -100,8 +100,11 @@
                                                         + "<a class='btn btn-primary' href='ModificarTipoCuenta.jsp?GLTPCLSID=" + rs.getInt(2) + "'>Editar</a>"
                                                         + "</TD>");
                                                 out.println("</TR>");
-                                            }; // fin while 
-                                        } //fin try no usar ; al final de dos o mas catchs 
+                                            }; // Fin while 
+                                            conn.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+                                            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+                                            pst.close(); //CIERRO EL PREPARED STATEMENT.
+                                        } //Fin try no usar ; al final de dos o mas catchs 
                                         catch (SQLException e) {
                                         };%>
                                 </tbody>
