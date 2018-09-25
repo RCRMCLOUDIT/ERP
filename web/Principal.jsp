@@ -72,6 +72,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Contabilidad</a>
                     <div class="dropdown-menu">
+                        <a class="dropdown-item" href="Contabilidad/centrosdecosto/ListaNivelCC.jsp">Nivel de CC</a>
                         <a class="dropdown-item" href="Contabilidad/TiposCuenta.jsp">Tipos Cuentas</a>
                         <a class="dropdown-item" href="Contabilidad/CatalogoContable.jsp">Catalogo Contable</a>
                         <a class="dropdown-item" href="Contabilidad/PlantillaComprobante.jsp">Plantilla Comprobante</a>
