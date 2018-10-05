@@ -293,7 +293,7 @@
 
                         };
                         //}; 
-%>
+                    %>
                 </tbody>
             </table><%--FIN DE TABLA DE DETALLES DE ITEMS --%>
         </div>

@@ -51,7 +51,7 @@
                 <h1 style="color: #FFFFFF; text-align: center;">Resultados de la Busqueda</h1>              
             </center>
         </div>
-        <table class="table table-hover" id="tblMarca">
+        <table class="table table-responsive-lg table-hover" id="tblPoliza">
             <thead style="background-color: #4682B4">
                 <tr>
                     <th style="color: #FFFFFF; text-align: center;"># Poliza</th>
@@ -98,6 +98,9 @@
 
                                 out.println("</TR>");
                             }; // fin while
+                            conn.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+                            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+                            pst.close(); //CIERRO EL PREPARED STATEMENT.
                         } else {
                             out.println("</tbody>");
                             out.println("</table > ");
@@ -109,7 +112,7 @@
                     catch (SQLException e) {
                     };
                     //}; 
-                %>
+%>
             </tbody>
         </table>
         <div class="row form-group">
