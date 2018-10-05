@@ -101,7 +101,13 @@
                         <a href="#" class="close">&times;</a>
                         <strong>Error!</strong> Numero de Cuenta Contable Ya existe!
                     </div>
-                    <%}%>                    
+                    <%}%>
+                    <%if (Msg == 3) {%>
+                    <div class="alert alert-danger alert-dismissible" id="myAlert">
+                        <a href="#" class="close">&times;</a>
+                        <strong>Error!</strong> Seleccione un Tipo de Cuenta
+                    </div>
+                    <%}%>
                     <%--PARAMETRO PARA LA ACCION A EJECUTAR EN EL SERVLET--%>
                     <input type="text" class="form-control" id="form-Accion" name="form-Accion" value="AddCtaContable" hidden="true">
                     <div class="input-group">
@@ -127,6 +133,9 @@
                                             out.println("<option value='" + rs.getInt(1) + "'>" + rs.getString(2) + "</option>");
                                         }
                                     }; // fin while 
+                                    conn.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+                                    rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+                                    pst.close(); //CIERRO EL PREPARED STATEMENT
                                 } //fin try no usar ; al final de dos o mas catchs 
                                 catch (SQLException e) {
                                 };%>
@@ -168,7 +177,7 @@
                                         if (request.getParameter("IdTipoCuenta") != null && Integer.valueOf(request.getParameter("IdTipoCuenta")) > 0) {
                                             consulta = "SELECT IDCATALOGO, AccountNumber, AccountName, AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6 FROM `IBGLACCNTS` WHERE Active='S' AND GLTPCLSID = " + Integer.valueOf(request.getParameter("IdTipoCuenta")) + " ORDER BY `AccountNumber` ASC";
                                         } else {
-                                            consulta = "SELECT IDCATALOGO, AccountNumber, AccountName, AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6 FROM `IBGLACCNTS` WHERE Active='S'  ORDER BY `AccountNumber` ASC";
+                                            consulta = "";
                                         }
                                         ResultSet rs = null;
                                         PreparedStatement pst = null;
@@ -206,6 +215,9 @@
                                                 }
                                             }
                                         }; // fin while 
+                                        conn.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+                                        rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+                                        pst.close(); //CIERRO EL PREPARED STATEMENT
                                     } //fin try no usar ; al final de dos o mas catchs 
                                     catch (SQLException e) {
                                     };%>

@@ -11,6 +11,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
+    String DirActual = request.getContextPath();
     int Msg = 0;
     if (request.getParameter("Msg") != null) {
         Msg = Integer.valueOf(request.getParameter("Msg"));
@@ -20,27 +21,17 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <link rel="stylesheet" href="../css/jquery-ui-1.12.1.css">
-        <link rel="stylesheet" href="../css/bootstrap.css">
-        <link rel="stylesheet" href="../css/bootstrap.min.css">
-        <link rel="stylesheet" href="../css/bootstrap-grid.css">
-        <link rel="stylesheet" href="../css/bootstrap-grid.min.css">
-        <link rel="stylesheet" href="../css/bootstrap-reboot.css">
-        <link rel="stylesheet" href="../css/bootstrap-reboot.min.css">
-        <link rel="stylesheet" href="../css/jquery.dataTables.min.css">
-        <link rel="stylesheet" href="../css/responsive.bootstrap.min.css">
-        <link rel="stylesheet" href="../css/font-awesome.min.css">
-        <script src="../js/bootstrap.js"></script>
-        <script src="../js/bootstrap.min.js"></script>
-        <script src="../js/bootstrap.bundle.js"></script>
-        <script src="../js/bootstrap.bundle.min.js"></script>
-        <script src="../js/jquery.js"></script>
-        <script src="../js/jquery.dataTables.js"></script>
-        <script src="../js/dataTables.bootstrap.min.js"></script>
-        <script src="../js/dataTables.responsive.min.js"></script>
-        <script src="../js/responsive.bootstrap.min.js"></script>
-        <script src="../js/jquery-ui.min.js"></script>
-        <script src="../js/calendario.js"></script>
+        <%--ESTILOS DEL FRAMEWORK BOOTSTRAP --%>
+        <link rel="stylesheet" href="<%=DirActual%>/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<%=DirActual%>/css/bootstrap-select.css">
+        <%--ESTILOS DEL FRAMEWORK IONICONS --%>
+        <link rel="stylesheet" href="<%=DirActual%>/ionicons/css/ionicons.min.css">        
+        <%--JS DEL FRAMEWORK BOOTSTRAP Y JQUERY--%>
+        <script src="<%=DirActual%>/js/jquery.min.js"></script>
+        <script src="<%=DirActual%>/js/bootstrap.bundle.min.js"></script>
+        <script src="<%=DirActual%>/js/bootstrap-select.js"></script>
+        <script src="<%=DirActual%>/js/blocker.js"></script>
+        <script src="<%=DirActual%>/js/cross-browser.js"></script>
         <script>
             $(function () {
                 $("#grupoTablas").tabs();
@@ -87,11 +78,19 @@
                             <option value="G">Gastos</option>
                         </select>
                         <span class="input-group-addon col-sm-2"><strong>Codigo Tipo Cuenta</strong></span>
+                        <%if (request.getParameter("NombreCuenta") != null) {%>
+                        <input id="form-NumeroCuenta" name="form-NumeroCuenta" type="number" class="form-control col-sm-2" required="true" min="0" style="text-align: center" value="<%=request.getParameter("NumeroCuenta")%>">
+                        <%} else {%>
                         <input id="form-NumeroCuenta" name="form-NumeroCuenta" type="number" class="form-control col-sm-2" required="true" min="0" style="text-align: center">
+                        <%}%>
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon col-sm-2"><strong>Nombre Cuenta</strong></span>
+                        <%if (request.getParameter("NombreCuenta") != null) {%>
+                        <input id="form-NombreCuenta" name="form-NombreCuenta" type="text" class="form-control col-sm-6" placeholder="Ingresa Nombre Tipo Cuenta..." required="true" style="text-align: center" value="<%=request.getParameter("NombreCuenta")%>">
+                        <%} else {%>
                         <input id="form-NombreCuenta" name="form-NombreCuenta" type="text" class="form-control col-sm-6" placeholder="Ingresa Nombre Tipo Cuenta..." required="true" style="text-align: center">
+                        <%}%>
                     </div>
                 </div><%--FIN DIV PARA EL CONTROL DE DATOS DEL TIPO DE CUENTA CONTABLE --%>
                 <br>
@@ -100,7 +99,7 @@
                     <div class="col-sm-2"> 
                         <button type='button' onclick='location.href = "TiposCuenta.jsp"' class='btn btn-primary'> <<< Volver</button>
                     </div>
-                    <button type="submit" class="btn btn-primary" id="btnAgregar" name="btnAgregar" >Guardar</button>
+                    <button type="submit" class="btn btn-success" id="btnAgregar" name="btnAgregar" >Guardar</button>
                 </div>
             </form> <%--FIN PARA MANDAR A GUARDAR LOS DATOS DEL TIPO DE CUENTA CONTABLE --%>
         </div><%--FIN DIV GRUPO DE TABS--%>

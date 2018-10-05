@@ -85,7 +85,7 @@
                                             conn.Conectar();
                                             ResultSet rs = null;
                                             PreparedStatement pst = null;
-                                            pst = conn.conexion.prepareStatement("SELECT GLTMID, GLTMMEMO FROM `IBGLTPDST` GROUP BY GLTMID");
+                                            pst = conn.conexion.prepareStatement("SELECT GLTMID, GLTMMEMO FROM IBGLTDPST GROUP BY GLTMID");
                                             rs = pst.executeQuery();
                                             rs = pst.executeQuery();
                                             while (rs.next()) {
@@ -103,6 +103,9 @@
                                                         + "</TD>");
                                                 out.println("</TR>");
                                             }; // fin while 
+                                            conn.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+                                            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+                                            pst.close(); //CIERRO EL PREPARED STATEMENT.
                                         } //fin try no usar ; al final de dos o mas catchs 
                                         catch (SQLException e) {
                                         };%>

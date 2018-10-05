@@ -1,6 +1,7 @@
 <%-- 
-    Document   : AddPlantillaContable
-    Created on : 08-29-2018, 01:23:34 PM
+    Document   : AgregarComprobante
+    Created on : 09-11-2018, 01:53:25 PM
+    Owner:     : Cloud IT Systems, S.A
     Author     : Ing. Moises Romero Mojica
 --%>
 <%@page import="java.sql.SQLException"%>
@@ -9,17 +10,25 @@
 <%@page import="beans.ConexionDB"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    String DirActual = request.getContextPath();
+    request.getParameter("form-IdPlantilla");
+%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <%--ESTILOS DEL FRAMEWORK BOOTSTRAP --%>
-        <link rel="stylesheet" href="../css/bootstrap.min.css">
-        <link rel="stylesheet" href="../css/bootstrap-select.css">
+        <link rel="stylesheet" href="<%=DirActual%>/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<%=DirActual%>/css/bootstrap-select.css">
+        <%--ESTILOS DEL FRAMEWORK IONICONS --%>
+        <link rel="stylesheet" href="<%=DirActual%>/ionicons/css/ionicons.min.css">
         <%--JS DEL FRAMEWORK BOOTSTRAP Y JQUERY--%>
-        <script src="../js/jquery.min.js"></script>
-        <script src="../js/bootstrap.bundle.min.js"></script>
-        <script src="../js/bootstrap-select.js"></script>
+        <script src="<%=DirActual%>/js/jquery.min.js"></script>
+        <script src="<%=DirActual%>/js/bootstrap.bundle.min.js"></script>
+        <script src="<%=DirActual%>/js/bootstrap-select.js"></script>
+        <script src="<%=DirActual%>/js/blocker.js"></script>
+        <script src="<%=DirActual%>/js/cross-browser.js"></script>
         <script>
             $(function () {
                 $("#grupoTablas").tabs();
@@ -28,7 +37,7 @@
         <script type="text/javascript">
             function confirmar()
             {
-                if (!confirm("¿Desea Eliminar esta Linea de la Plantilla?"))
+                if (!confirm("¿Desea Eliminar esta Linea del Comprobante?"))
                 {
                     return false; //no se borra 
                 } else
@@ -37,36 +46,101 @@
                     return true;
                 }
             }
+            function Aprobar()
+            {
+                if (!confirm("¿Desea Aprobar El Comprobante?"))
+                {
+                    return false; //no se aprueba
+                } else
+                {
+                    //si se aprueba
+                    return true;
+                }
+            }
+            function Aplicar()
+            {
+                if (!confirm("¿Desea Aplicar El Comprobante?"))
+                {
+                    return false; //no se aplica
+                } else
+                {
+                    //si se aplica
+                    return true;
+                }
+            }
         </script>
-        <title>Plantilla Comprobante</title>
+        <title>Comprobante Contable</title>
     </head>
-    <%@include file="../Commons/Menu.jsp"%>
+    <%@include file="../Commons/Menu.jsp" %>
     <body>
         <div id="EncabezadoPagina" style="background-color: #4682B4;">
             <center>
-                <h1 style="color: #FFFFFF; text-align: center;">Plantillas de Comprobante Contable</h1>                
+                <h1 style="color: #FFFFFF; text-align: center;">Comprobante Contable</h1>                
             </center>
         </div>
         <div id="grupoTablas"><%-- DIV PARA AGRUPAR LOS DATOS POR TABS --%>
             <ul  style="background-color: #4682B4;">
-                <li><a href="#tab-1">Datos de Plantilla</a></li>
+                <li><a href="#tab-1">Datos del Comprobante</a></li>
             </ul>
             <%-- FORMULARIO PARA MANDAR A GUARDAR LOS DATOS DE LA PLANTILLA CONTABLE --%>
-            <form id="PlantillaComprobante" role='form' action='../ServletContabilidad' method='POST'>
+            <form id="ComprobanteContable" role='form' action='../ServletContabilidad' method='POST'>
                 <div id="tab-1"><%-- DIV PARA EL CONTROL DE LOS DATOS DE LA PLANTILLA CONTABLE --%>                  
                     <%--PARAMETRO PARA LA ACCION A EJECUTAR EN EL SERVLET--%>
-                    <input type="text" class="form-control" id="form-Accion" name="form-Accion" value="AddPlantillaComprobante" hidden="true">
+                    <input type="text" class="form-control" id="form-Accion" name="form-Accion" value="AddComprobanteContable" hidden="true">
                     <%if (request.getParameter("IdPlantilla") != null) {%>
                     <input type="text" class="form-control" id="form-IdPlantilla" name="form-IdPlantilla" value="<%=request.getParameter("IdPlantilla")%>" hidden="true">
                     <%} else {%>
                     <input type="text" class="form-control" id="form-IdPlantilla" name="form-IdPlantilla" value="0" hidden="true">
                     <%}%>
+                    <%if (request.getParameter("IdComprobante") != null) {%>
+                    <input type="text" class="form-control" id="form-IdComprobante" name="form-IdComprobante" value="<%=request.getParameter("IdComprobante")%>" hidden="true">
+                    <%} else {%>
+                    <input type="text" class="form-control" id="form-IdComprobante" name="form-IdComprobante" value="0" hidden="true">
+                    <%}%>
                     <div class="input-group">
                         <span class="input-group-addon col-sm-2"><strong>Descripcion</strong></span>
-                        <%if (request.getParameter("DescPlant") != null) {%>
-                        <input class="form-control col-sm-6" id="form-DescripcionPlantilla" name="form-DescripcionPlantilla" type="text" required="true" style="text-align: center" maxlength="255" value="<%=request.getParameter("DescPlant")%>">
+                        <%if (request.getParameter("DescComp") != null) {%>
+                        <input class="form-control col-sm-8" id="form-DescripcionPlantilla" name="form-DescripcionComprobante" type="text" required="true" style="text-align: center" maxlength="255" value="<%=request.getParameter("DescComp")%>">
                         <%} else {%>
-                        <input class="form-control col-sm-6" id="form-DescripcionPlantilla" name="form-DescripcionPlantilla" type="text" placeholder="Ingresa una Descripcion..." required="true" style="text-align: center" maxlength="255">
+                        <input class="form-control col-sm-8" id="form-DescripcionPlantilla" name="form-DescripcionComprobante" type="text" placeholder="Ingresa una Descripcion..." required="true" style="text-align: center" maxlength="255">
+                        <%}%>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon col-sm-2"><strong>Numero Referencia</strong></span>
+                        <%if (request.getParameter("RefNum") != null) {%>
+                        <input class="form-control col-sm-4" id="form-NumeroReferencia" name="form-NumeroReferencia" type="text" required="true" style="text-align: center" maxlength="20" value="<%=request.getParameter("RefNum")%>">
+                        <%} else {%>
+                        <input class="form-control col-sm-4" id="form-NumeroReferencia" name="form-NumeroReferencia" type="text" placeholder="Ingresa un # Referencia..." required="true" style="text-align: center" maxlength="20">
+                        <%}%>
+                        <span class="input-group-addon col-sm-2"><strong>Fecha</strong></span>
+                        <%if (request.getParameter("Fecha") != null) {%>
+                        <input type="text" class="form-control col-sm-2" id="Fecha" name="Fecha" style="text-align: center" readonly="true" value="<%=request.getParameter("Fecha")%>">
+                        <script type="text/javascript">
+                            $('#Fecha').datepicker({
+                                //format: "dd/mm/yyyy",
+                                dateFormat: "yy-mm-dd",
+                                language: 'es',
+                                changeYear: true,
+                                changeMonth: true,
+                                yearRange: "2018:2050",
+                                showAnim: "slide",
+                                autoclose: true
+                            });
+                        </script>
+                        <%} else {%>
+                        <input type="text" class="form-control col-sm-2" id="Fecha" name="Fecha" style="text-align: center" readonly="true">
+                        <script type="text/javascript">
+                            $('#Fecha').datepicker({
+                                //format: "dd/mm/yyyy",
+                                dateFormat: "yy-mm-dd",
+                                language: 'es',
+                                changeYear: true,
+                                changeMonth: true,
+                                yearRange: "2018:2050",
+                                showAnim: "slide",
+                                autoclose: true
+                            }).datepicker({}).datepicker("setDate", new Date());
+                        </script>
                         <%}%>
                     </div>
                     <br>
@@ -77,7 +151,7 @@
                         <span class="input-group-addon col-sm-1"><strong>Tipo</strong></span>
                     </div>
                     <div class="input-group">
-                        <select class="selectpicker col-sm-6" id="form-CtaContable" name="form-CtaContable" data-live-search="true" title="Buscar Cuenta...">
+                        <select class="selectpicker col-sm-6" id="form-CtaContable" name="form-CtaContable" data-live-search="true" title="Buscar Cuenta..." required="true">
                             <%  try {
                                     ConexionDB conn = new ConexionDB();
                                     conn.Conectar();
@@ -148,7 +222,7 @@
 
                                             }
                                         }
-                                    }; // fin while 
+                                    }; // FIN WHILE
                                     conn.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
                                     rs.close(); //CIERRO LA CONEXION DEL RESULSET.
                                     pst.close(); //CIERRO EL PREPARED STATEMENT
@@ -178,15 +252,21 @@
                             <option value='0'></option>
                         </select>
                         <div class="col-sm-1"> </div>
-                        <button type="submit" class="btn btn-success" id="btnAgregar" name="btnAgregar" >Agregar Linea</button>
+                        <button type="submit" class="btn btn-success" id="btnAgregar" name="btnAgregar">
+                            <i class="icon ion-plus"></i>
+                            Agregar Linea
+                        </button>
                         <div class="col-sm-1"> </div>
-                        <button type='button' onclick='location.href = "PlantillaComprobante.jsp"' class='btn btn-primary'>Volver A Lista de Plantillas</button>
+                        <button type='button' onclick='location.href = "ListarComprobante.jsp"' class='btn btn-primary'>
+                            <i class="icon ion-arrow-return-left"></i>
+                            Volver A Lista de Comprobantes
+                        </button>
                     </div>
                 </div><%--FIN DIV PARA EL CONTROL DE DATOS DE LA CUENTA CONTABLE --%>
                 <br>              
             </form><%--FIN FORMULARIO PARA EL ENVIO DE DATOS DE LA CUENTA CONTABLE --%>
             <div class="panel-body">
-                <table class="table table-hover" id="tblPlantillaContable">
+                <table class="table table-hover" id="tblComprobantesContable">
                     <thead style="background-color: #4682B4">
                         <tr>
                             <th style="color: #FFFFFF; text-align: center;"><strong>Cuenta Contable</strong></th>
@@ -204,8 +284,9 @@
                                 ResultSet rs = null;
                                 PreparedStatement pst = null;
                                 double TotalCreditos = 0.00, TotalDebitos = 0.00;
-                                if (request.getParameter("IdPlantilla") != null) {
-                                    pst = conn.conexion.prepareStatement("SELECT IBGLACCNTS.AccountNumber, IBGLACCNTS.AccountName, IBGLTDPST.GLTMAMOUNT, IBGLTDPST.GLTMMEMODET, IBGLTDPST.MOVEMENTTYPE, IBGLTDPST.GLTMID, IBGLTDPST.GLTMLINEID,IBGLTDPST.IDCATALOGO, IBGLTDPST.GLTMMEMO FROM IBGLTDPST INNER JOIN IBGLACCNTS ON IBGLTDPST.IDCATALOGO=IBGLACCNTS.IDCATALOGO WHERE IBGLTDPST.GLTMID=" + request.getParameter("IdPlantilla") + " ");
+                                String Estatus = "";
+                                if (request.getParameter("IdComprobante") != null) {
+                                    pst = conn.conexion.prepareStatement("SELECT IBGLACCNTS.AccountNumber, IBGLACCNTS.AccountName, IBGLBATCHDST.GLBACHAMOUNT, IBGLBATCHDST.GLBACHMEMODET, IBGLBATCHDST.GLBACHMOVEMENTTYPE, IBGLBATCHDST.GLTMID, IBGLBATCHDST.GLBACHLINEID, IBGLBATCHDST.IDCATALOGO, IBGLBATCHDST.GLBACHMEMO, IBGLBATCHDST.IdComprobante, IBGLBATCHDST.GLBACHMREF, IBGLBATCHDST.GLBACHDATE, IBGLBATCHDST.GLBACHSTATUS FROM IBGLBATCHDST INNER JOIN IBGLACCNTS ON IBGLBATCHDST.IDCATALOGO=IBGLACCNTS.IDCATALOGO WHERE IBGLBATCHDST.IdComprobante=" + request.getParameter("IdComprobante") + " ");
                                 } else {
                                     pst = conn.conexion.prepareStatement("");
                                 }
@@ -225,23 +306,26 @@
                                     }
                                     out.println("<TD style='color: #000000;'></TD>");//TIPO DE CENTRO DE COSTO
                                     out.println("<TD style='color: #000000;'></TD>");//CUENTA CENTRO COSTO
-                                    out.println("<TD> <a class='btn btn-primary text-white' href='EditarLineTemp.jsp?IdPlantilla=" + rs.getInt(6) + "&IdLine=" + rs.getInt(7) + "&DescPlant=" + rs.getString(9) + "'>Editar</a></TD>");//EDITAR LINEA
-                                    //FORMULARIO OCULTO PARA MANDAR A ELIMINAR LA LINEA DE LA PLANTILLA
+                                    out.println("<TD><a class='btn btn-primary text-white' href='EditarLineBACH.jsp?IdComprobante=" + rs.getInt(10) + "&DescComp=" + rs.getString(9) + "&RefNum=" + rs.getString(11) + "&Fecha=" + rs.getString(12) + "&IdLine=" + rs.getString(7) + " '>Editar</a></TD>");//EDITAR LINEA
+                                    //FORMULARIO OCULTO PARA MANDAR A ELIMINAR LA LINEA DEL COMPROBANTE
                                     out.println("<TD>"
-                                            + "<form id='BorraLinePlantilla' role='form' action='../ServletContabilidad' method='POST' onsubmit='return confirmar();'>"
-                                            + "<input id='form-Accion' name='form-Accion' type='text' value='DeleteLineTemplate' hidden='true'>"
-                                            + "<input id='form-IdPlantilla' name='form-IdPlantilla' type='text' value='" + rs.getInt(6) + "' hidden='true'>"
+                                            + "<form id='DeleteLineBATCH' role='form' action='../ServletContabilidad' method='POST' onsubmit='return confirmar();'>"
+                                            + "<input id='form-Accion' name='form-Accion' type='text' value='DeleteLineBATCH' hidden='true'>"
+                                            + "<input id='form-IdComprobante' name='form-IdComprobante' type='text' value='" + rs.getInt(10) + "' hidden='true'>"
                                             + "<input id='form-IdLinea' name='form-IdLinea' type='text' value='" + rs.getInt(7) + "' hidden='true'>"
                                             + "<input id='form-IdCatalogo' name='form-IdCatalogo' type='text' value='" + rs.getInt(8) + "' hidden='true'>"
-                                            + "<input id='form-DescripcionPlantilla' name='form-DescripcionPlantilla' type='text' value='" + rs.getString(9) + "' hidden='true'>"
+                                            + "<input id='form-DescripcionComprobante' name='form-DescripcionComprobante' type='text' value='" + rs.getString(9) + "' hidden='true'>"
+                                            + "<input id='form-NumeroReferencia' name='form-NumeroReferencia' type='text' value='" + rs.getString(11) + "' hidden='true'>"
+                                            + "<input id='Fecha' name='Fecha' type='text' value='" + rs.getString(12) + "' hidden='true'>"
                                             + "<button type='submit' class='btn btn-danger' id='btnEliminarLinea' name='btnEliminarLinea'>Eliminar</button>"
                                             + "</form>"
                                             + "</TD>");
                                     out.println("</TR>");
+                                    Estatus = rs.getString(13);
                                 }; // fin while 
                                 conn.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
                                 rs.close(); //CIERRO LA CONEXION DEL RESULSET.
-                                pst.close(); //CIERRO EL PREPARED STATEMENT
+                                pst.close(); //CIERRO EL PREPARED STATEMENT.
                                 //LINEA PARA MOSTRAR LOS TOTAL CREDITOS Y DEBITOS.
                                 out.println("<TR>");
                                 out.println("<TD style='color: #000000;'></TD>");
@@ -250,13 +334,61 @@
                                 } else {
                                     out.println("<TD colspan='2' style='color: #FFFFFF;'><input class='form-control bg-danger text-white' id='form-Message' name='form-Message' type='text' value='Creditos Y Debitos Desbalanceados' readonly></TD>");
                                 }
-
                                 out.println("<TD style='color: #000000; text-align: right;'><Strong>Total Creditos</Strong></TD>");
                                 out.println("<TD style='color: #000000;'>" + TotalCreditos + "</TD>");
                                 out.println("<TD style='color: #000000; text-align: right;'><Strong>Total Debitos</Strong></TD>");
                                 out.println("<TD style='color: #000000;'>" + TotalDebitos + "</TD>");
-                                out.println("<TD></TD>");
+                                out.println("<TD style='color: #000000;'></TD>");
                                 out.println("</TR>");
+                                if (TotalCreditos == TotalDebitos) {
+                                    out.println("</tbody>");
+                                    out.println("</table>");
+                                    out.println("<div class='row form-group'>");
+                                    out.println("<div class='col-2'></div>");
+                                    if (Estatus.equals("Borrador")) {
+                                        out.println("<div class='col-2'>"
+                                                + "<form id='AprobarBATCH' role='form' action='../ServletContabilidad' method='POST' onsubmit='return Aprobar();'>"
+                                                + "<input id='form-Accion' name='form-Accion' type='text' value='AprobarBATCH' hidden='true'>"
+                                                + "<input id='form-IdComprobante' name='form-IdComprobante' type='text' value='" + request.getParameter("IdComprobante") + "' hidden='true'>"
+                                                + "<input id='form-DescripcionComprobante' name='form-DescripcionComprobante' type='text' value='" + request.getParameter("DescComp") + "' hidden='true'>"
+                                                + "<input id='form-NumeroReferencia' name='form-NumeroReferencia' type='text' value='" + request.getParameter("RefNum") + "' hidden='true'>"
+                                                + "<input id='Fecha' name='Fecha' type='text' value='" + request.getParameter("Fecha") + "' hidden='true'>"
+                                                + "<button type='submit' class='btn btn-success' id='btnAprobarBATCH' name='btnAprobarBATCH'>Aprobar Comprobante</button>"
+                                                + "</form>"
+                                                + "</div>");
+                                    }
+                                    if (Estatus.equals("Aprobado")) {
+                                        out.println("<div class='col-2'>"
+                                                + "<form id='AprobarBATCH' role='form' action='../ServletContabilidad' method='POST' onsubmit='return Aplicar();'>"
+                                                + "<input id='form-Accion' name='form-Accion' type='text' value='AplicarBATCH' hidden='true'>"
+                                                + "<input id='form-IdComprobante' name='form-IdComprobante' type='text' value='" + request.getParameter("IdComprobante") + "' hidden='true'>"
+                                                + "<input id='form-DescripcionComprobante' name='form-DescripcionComprobante' type='text' value='" + request.getParameter("DescComp") + "' hidden='true'>"
+                                                + "<input id='form-NumeroReferencia' name='form-NumeroReferencia' type='text' value='" + request.getParameter("RefNum") + "' hidden='true'>"
+                                                + "<input id='Fecha' name='Fecha' type='text' value='" + request.getParameter("Fecha") + "' hidden='true'>"
+                                                + "<button type='submit' class='btn btn-success' id='btnAprobarBATCH' name='btnAprobarBATCH'>Aplicar Comprobante</button>"
+                                                + "</form>"
+                                                + "</div>");
+                                    }
+                                    if (request.getParameter("IdComprobante") != null) {
+                                        out.println("<div class='col-2'>"
+                                                + "<a href='ReporteComprobante.jsp?IdComprobante='" + request.getParameter("IdComprobante") + "' target='_blank' class='btn btn-warning text-white'>Imprimir Comprobante</a>"
+                                                + "</div>");
+                                    }
+                                    out.println("</div>");
+                                } else {
+                                    out.println("</tbody>");
+                                    out.println("</table>");
+                                    out.println("<br>");
+                                    out.println("<div class='row form-group'>");
+                                    out.println("<div class='col-2'></div>");
+                                    out.println("<div class='col-2'></div>");
+                                    if (request.getParameter("IdComprobante") != null) {
+                                        out.println("<div class='col-2'>"
+                                                + "<a href='ReporteComprobante.jsp?IdComprobante='" + request.getParameter("IdComprobante") + "' target'_blank' class='btn btn-warning text-white'>Imprimir Comprobante</a>"
+                                                + "</div>");
+                                    }
+                                    out.println("</div>");
+                                }
                             } //fin try no usar ; al final de dos o mas catchs 
                             catch (SQLException e) {
                             };%>

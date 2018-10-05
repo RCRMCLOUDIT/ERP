@@ -1,6 +1,6 @@
 <%-- 
-    Document   : EditarLineTemp
-    Created on : 09-07-2018, 03:11:44 PM
+    Document   : EditarLineBACH
+    Created on : 09-13-2018, 10:15:25 PM
     Author     : Ing. Moises Romero Mojica
 --%>
 <%@page import="model.DaoContabilidad"%>
@@ -11,16 +11,18 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
-    int IdPlantilla = Integer.valueOf(request.getParameter("IdPlantilla"));
+    int IdComprobante = Integer.valueOf(request.getParameter("IdComprobante"));
     int IdLinea = Integer.valueOf(request.getParameter("IdLine"));
-    String DescPlant = request.getParameter("DescPlant");
+    String DescComp = request.getParameter("DescComp");
+    String RefNum = request.getParameter("RefNum");
+    String Fecha = request.getParameter("Fecha");
     DaoContabilidad datos = new DaoContabilidad();
-    datos.GetDetailLine(IdPlantilla, IdLinea);
+    datos.GetDetailLineBATCH(IdComprobante, IdLinea);
     int IdCatalogo = datos.GetIdCatalogo;
-    String GLTMMEMODET = datos.GetGLTMMEMODET;
-    Double GLTMAMOUNT = datos.GetGLTMAMOUNT;
-    String MOVEMENTTYPE = datos.GetMOVEMENTTYPE;
-    int GLTMCCTYPID = datos.GetGLTMCCTYPID;
+    String GLTMMEMODET = datos.GetGLBACHMEMODET;
+    Double GLTMAMOUNT = datos.GetGLBACHAMOUNT;
+    String MOVEMENTTYPE = datos.GetGLBACHMOVEMENTTYPE;
+    int GLTMCCTYPID = datos.GetGLBACHCCTYPID;
 %>
 <html>
     <head>
@@ -41,7 +43,7 @@
         <script type="text/javascript">
             function confirmar()
             {
-                if (!confirm("¿Desea Eliminar esta Linea de la Plantilla?"))
+                if (!confirm("¿Desea Eliminar esta Linea del Comprobante?"))
                 {
                     return false; //no se borra 
                 } else
@@ -51,30 +53,32 @@
                 }
             }
         </script>
-        <title>Plantilla Comprobante</title>
+        <title>Comprobante Contable</title>
     </head>
     <%@include file="../Commons/Menu.jsp" %>
     <body>
         <div id="EncabezadoPagina" style="background-color: #4682B4;">
             <center>
-                <h1 style="color: #FFFFFF; text-align: center;">Editando Linea de Plantilla</h1>                
+                <h1 style="color: #FFFFFF; text-align: center;">Editando Linea de Comprobante</h1>                
             </center>
         </div>
         <div id="grupoTablas"><%-- DIV PARA AGRUPAR LOS DATOS POR TABS --%>
             <ul  style="background-color: #4682B4;">
-                <li><a href="#tab-1">Datos de Linea de Plantilla</a></li>
+                <li><a href="#tab-1">Datos de Linea de Comprobante</a></li>
             </ul>
-            <%-- FORMULARIO PARA MANDAR A GUARDAR LOS DATOS DE LA PLANTILLA CONTABLE --%>
+            <%-- FORMULARIO PARA MANDAR A GUARDAR LOS DATOS DEL COMPROBANTE CONTABLE --%>
             <form id="PlantillaComprobante" role='form' action='../ServletContabilidad' method='POST'>
                 <div id="tab-1"><%-- DIV PARA EL CONTROL DE LOS DATOS DE LA PLANTILLA CONTABLE --%>                  
                     <%--PARAMETRO PARA LA ACCION A EJECUTAR EN EL SERVLET--%>
-                    <input type="text" class="form-control" id="form-Accion" name="form-Accion" value="UpdateLineTemplate" hidden="true">
-                    <%if (request.getParameter("IdPlantilla") != null) {%>
-                    <input type="text" class="form-control" id="form-IdPlantilla" name="form-IdPlantilla" value="<%=request.getParameter("IdPlantilla")%>" hidden="true">
+                    <input type="text" class="form-control" id="form-Accion" name="form-Accion" value="UpdateLineBATCH" hidden="true">
+                    <%if (request.getParameter("IdComprobante") != null) {%>
+                    <input type="text" class="form-control" id="form-IdComprobante" name="form-IdComprobante" value="<%=request.getParameter("IdComprobante")%>" hidden="true">
                     <input type="text" class="form-control" id="form-IdLinea" name="form-IdLinea" value="<%=request.getParameter("IdLine")%>" hidden="true">
-                    <input class="form-control col-sm-6" id="form-DescripcionPlantilla" name="form-DescripcionPlantilla" type="text" required="true" style="text-align: center" maxlength="255" value="<%=request.getParameter("DescPlant")%>" hidden="true">
+                    <input type="text" class="form-control col-sm-8" id="form-DescripcionComprobante" name="form-DescripcionComprobante" required="true" style="text-align: center" maxlength="255" value="<%=request.getParameter("DescComp")%>" hidden="true">
+                    <input type="text" class="form-control col-sm-4" id="form-NumeroReferencia" name="form-NumeroReferencia" required="true" style="text-align: center" maxlength="20" value="<%=request.getParameter("RefNum")%>" hidden="true">
+                    <input type="text" class="form-control col-sm-4" id="Fecha" name="Fecha" required="true" style="text-align: center" maxlength="10" value="<%=request.getParameter("Fecha")%>" hidden="true">
                     <%} else {%>
-                    <input type="text" class="form-control" id="form-IdPlantilla" name="form-IdPlantilla" value="0" hidden="true">
+                    <input type="text" class="form-control" id="form-IdComprobante" name="form-IdComprobante" value="0" hidden="true">
                     <%}%>
                     <br>
                     <div class="input-group">
@@ -96,7 +100,7 @@
                                     while (rs.next()) {
                                         if (IdCatalogo > 0 && IdCatalogo == rs.getInt(1)) {
                                             //out.println("<option selected='true' value='" + rs.getInt(1) + "'>" + rs.getString(2) + " - " + rs.getString(3) + " | " + rs.getString(11) + " </option>");
-                                            out.println("<option selected='true' class='text-primary' value='" + rs.getInt(1) + "'><span title=" + rs.getString(2) + " - " + rs.getString(3) + ">" + rs.getString(2) + " - " + rs.getString(3) + "&nbsp;</span>&nbsp;<span title=" + rs.getString(11) + "> " + rs.getString(11) + "&nbsp;</span> </option>");
+                                            out.println("<option selected='true' class='text-default' value='" + rs.getInt(1) + "'><span title=" + rs.getString(2) + " - " + rs.getString(3) + ">" + rs.getString(2) + " - " + rs.getString(3) + "&nbsp;</span>&nbsp;<span title=" + rs.getString(11) + "> " + rs.getString(11) + "&nbsp;</span> </option>");
                                         } else {
                                             //INDEX 4 = ACCOUNT LEVEL1; INDEX 5 = ACCOUNT LEVEL2; INDEX 6 = ACCOUNT LEVEL3
                                             //INDEX 7 = ACCOUNT LEVEL4; INDEX 8 = ACCOUNT LEVEL5; INDEX 9 = ACCOUNT LEVEL6
@@ -192,7 +196,7 @@
                         <div class="col-sm-1"> </div>
                         <button type="submit" class="btn btn-success" id="btnAgregar" name="btnAgregar" >Guardar Cambios</button>
                         <div class="col-sm-1"> </div>
-                        <button type='button' onclick='location.href = "AddPlantillaContable.jsp?IdPlantilla=<%=IdPlantilla%>&DescPlant=<%=DescPlant%>"' class="btn btn-primary">Volver A Plantilla</button>
+                        <button type='button' onclick='location.href = "AgregarComprobante.jsp?IdComprobante=<%=IdComprobante%>&DescComp=<%=DescComp%>&RefNum=<%=RefNum%>&Fecha=<%=Fecha%>"' class="btn btn-primary">Volver A Comprobante</button>
                     </div>
                 </div><%--FIN DIV PARA EL CONTROL DE DATOS DE LA CUENTA CONTABLE --%>
                 <br>              

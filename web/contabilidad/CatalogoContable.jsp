@@ -2,6 +2,7 @@
     Document   : CatalogoContable
     Created on : 08-08-2018, 01:14:34 PM
     Author     : Ing. Moises Romero Mojica
+    Owner:     : Cloud IT Systems, S.A
 --%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -9,16 +10,28 @@
 <%@page import="java.sql.SQLException"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    String DirActual = request.getContextPath();
+%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <link rel="stylesheet" href="../css/bootstrap.min.css">
-        <link rel="stylesheet" href="../css/bootstrap.css">
-        <script src="../js/jquery.min.js"></script>
-        <script src="../js/popper.min.js"></script>
-        <script src="../js/bootstrap.min.js"></script>
-        <script src="../js/calendario.js"></script>
+        <%--ESTILOS DEL FRAMEWORK BOOTSTRAP --%>
+        <link rel="stylesheet" href="<%=DirActual%>/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<%=DirActual%>/css/bootstrap-select.css">
+        <link rel="stylesheet" href="<%=DirActual%>/css/jquery-ui-1.12.1.css">
+        <%--ESTILOS DEL FRAMEWORK IONICONS --%>
+        <link rel="stylesheet" href="<%=DirActual%>/ionicons/css/ionicons.min.css">
+        <%--JS DEL FRAMEWORK BOOTSTRAP Y JQUERY--%>
+        <script src="<%=DirActual%>/js/jquery.min.js"></script>
+        <script src="<%=DirActual%>/js/bootstrap.bundle.min.js"></script>
+        <script src="<%=DirActual%>/js/bootstrap-select.js"></script>
+        <script src="<%=DirActual%>/js/jquery-ui.min.js"></script>
+        <script src="<%=DirActual%>/js/popper.min.js"></script>
+        <script src="<%=DirActual%>/js/calendario.js"></script>
+        <script src="<%=DirActual%>/js/blocker.js"></script>
+        <script src="<%=DirActual%>/js/cross-browser.js"></script>        
         <script>
             //ESTA FUNCION SIRVE PARA PAGINAR LOS RESULTADOS
             $(document).ready(function () {
@@ -118,6 +131,9 @@
                                                     out.println("<option value='" + rs.getInt(1) + "'>" + rs.getString(2) + "</option>");
                                                 }
                                             }; // fin while 
+                                            conn.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+                                            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+                                            pst.close(); //CIERRO EL PREPARED STATEMENT.
                                         } //fin try no usar ; al final de dos o mas catchs 
                                         catch (SQLException e) {
                                         };%>
@@ -270,6 +286,9 @@
                                                     out.println("</TR>");
                                                 }
                                             }; // fin while 
+                                            conn.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+                                            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+                                            pst.close(); //CIERRO EL PREPARED STATEMENT.
                                         } //fin try no usar ; al final de dos o mas catchs 
                                         catch (SQLException e) {
                                         };%>
