@@ -1,6 +1,10 @@
 package controller;
 
+import beans.ConexionDB;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +25,10 @@ public class ServletContabilidad extends HttpServlet {
         int Msg = 0; // ESTA VARIABLE SERA PARA CONTROLAR LOS MENSAJES DE ERROR Y ENVIARLO A LA VISTA
 
         //---------------------------------------------------------------------//
-        // IF PARA AGREGAR UN NUEVO TIPO DE CUENTA CONTABLE
+        // IF PARA AGREGAR UN NUEVO TIPO DE CUENTA CONTABLE--------------------//
         //---------------------------------------------------------------------//
         if (Accion.equals("AddTipoCta")) {
+            URL = "";
             int CompanyId = 1;
             int GLTPCLSID = Integer.valueOf(request.getParameter("form-NumeroCuenta"));
             String GLTPNAME = request.getParameter("form-NombreCuenta");
@@ -31,24 +36,26 @@ public class ServletContabilidad extends HttpServlet {
             DaoContabilidad datos = new DaoContabilidad();
             datos.VerifarNombre(GLTPNAME);
             String GetGLTPNAME = datos.GetGLTPNAME;
+
             datos.VerificarCod(GLTPCLSID);
             int GetGLTPCLSID = datos.GetGLTPCLSID;
             if (GLTPNAME.equals(GetGLTPNAME)) {
                 Msg = 1;
                 //MENSAJE = 1 EL NOMBRE DE CUENTA YA EXISTE
-                URL = "Contabilidad/AgregarTipoCuenta.jsp?Msg=" + Msg;
+                URL = "Contabilidad/AgregarTipoCuenta.jsp?NumeroCuenta=" + GLTPCLSID + "&NombreCuenta=" + GLTPNAME + "&Tipo=" + GLTPACCID + "&Msg=" + Msg;
+
             } else if (GLTPCLSID == GetGLTPCLSID) {
                 Msg = 2;
                 //MENSAJE = 2 EL CODIGO DE CUENTA YA EXISTE
-                URL = "Contabilidad/AgregarTipoCuenta.jsp?Msg=" + Msg;
+                URL = "Contabilidad/AgregarTipoCuenta.jsp?NumeroCuenta=" + GLTPCLSID + "&NombreCuenta=" + GLTPNAME + "&Tipo=" + GLTPACCID + "&Msg=" + Msg;
             } else {
                 try {
                     datos.GLADDTYPACC(CompanyId, GLTPCLSID, GLTPNAME, GLTPACCID, "Moises Romero", "");
+                    URL = "Contabilidad/TiposCuenta.jsp";
                 } catch (Exception e) {
                     e.getMessage();
                 }
             }
-            URL = "Contabilidad/TiposCuenta.jsp";
             response.sendRedirect(URL);
         }//FIN DEL IF PARA AGREGAR UN NUEVO TIPO DE CUENTA CONTABLE
 
@@ -126,6 +133,9 @@ public class ServletContabilidad extends HttpServlet {
                 Msg = 2;
                 URL = "Contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg + "&IdTipoCuenta=" + IdTipoCta + "&Name=" + NombreCta + "&Num=" + NumeroCta + "&Desc=" + Descripcion + "&SubC=" + SubCta;
                 //response.sendRedirect("Contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg + "&IdTipoCuenta=" + IdTipoCta + "&Name=" + NombreCta + "&Num=" + NumeroCta + "&Desc=" + Descripcion);
+            } else if (IdTipoCta == 0) {
+                Msg = 3;
+                URL = "Contabilidad/AgregaCuentaContable.jsp?Msg=" + Msg + "&IdTipoCuenta=" + IdTipoCta + "&Name=" + NombreCta + "&Num=" + NumeroCta + "&Desc=" + Descripcion + "&SubC=" + SubCta;
             } else {
                 //SI SUB-CTA = 0; QUIERE DECIR QUE SERA UNA CUENTA DE NIVEL 1.
                 if (SubCta == 0) {
@@ -476,6 +486,7 @@ public class ServletContabilidad extends HttpServlet {
                 datos.GetCountIdComprobante();
                 IdComprobante = datos.GetCurrentIdComprobante;
                 int LineId = 1;
+                URL = "Contabilidad/AgregarComprobante.jsp?IdComprobante=" + IdComprobante + "&DescComp=" + Descripcion + "&RefNum=" + NumeroReferencia + "&Fecha=" + Fecha;
                 try {
                     datos.GLADDBACH(IdComprobante, IdPlantilla, IdCatalago, LineId, NumeroReferencia, Descripcion, Fecha,
                             AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6, ComentLinea,
@@ -483,9 +494,9 @@ public class ServletContabilidad extends HttpServlet {
                             GLTMCCID1, GLTMCCID2, GLTMCCID3, GLTMCCID4, GLTMCCID5, CreatedBy, CreatedFromIP, CompanyId);
                 } catch (Exception e) {
                 }
-                URL = "Contabilidad/AgregarComprobante.jsp?IdComprobante=" + IdComprobante + "&DescComp=" + Descripcion + "&RefNum=" + NumeroReferencia + "&Fecha=" + Fecha;
+
             } else {
-                // SI EL ID PLANTILLA NO ES IGUAL A 0 QUIERE DECIR QUE ES UNA PLANTILLA QUE YA EXISTE
+                // SI EL ID COMPROBANTE NO ES IGUAL A 0 QUIERE DECIR QUE ES UN COMPROBANTE QUE YA EXISTE
                 int IdCatalago = Integer.valueOf(request.getParameter("form-CtaContable"));
                 String AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6;
                 datos.BuscarIBGLACCNTS(IdCatalago);
@@ -509,6 +520,7 @@ public class ServletContabilidad extends HttpServlet {
                 int CompanyId = 1;
                 datos.GetCountLineBach(IdComprobante);
                 int LineId = datos.GetCurrentLineIdComp;
+                URL = "Contabilidad/AgregarComprobante.jsp?IdComprobante=" + IdComprobante + "&DescComp=" + Descripcion + "&RefNum=" + NumeroReferencia + "&Fecha=" + Fecha;
                 try {
                     datos.GLADDBACH(IdComprobante, IdPlantilla, IdCatalago, LineId, NumeroReferencia, Descripcion, Fecha,
                             AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6, ComentLinea,
@@ -516,7 +528,7 @@ public class ServletContabilidad extends HttpServlet {
                             GLTMCCID1, GLTMCCID2, GLTMCCID3, GLTMCCID4, GLTMCCID5, CreatedBy, CreatedFromIP, CompanyId);
                 } catch (Exception e) {
                 }
-                URL = "Contabilidad/AgregarComprobante.jsp?IdComprobante=" + IdComprobante + "&DescComp=" + Descripcion + "&RefNum=" + NumeroReferencia + "&Fecha=" + Fecha;
+
             }
             response.sendRedirect(URL);
         }// FINAL IF PARA AGREGAR DATOS DEL COMPROBANTE
@@ -552,6 +564,7 @@ public class ServletContabilidad extends HttpServlet {
             Double GLTMCCID1 = 0.00, GLTMCCID2 = 0.00, GLTMCCID3 = 0.00, GLTMCCID4 = 0.00, GLTMCCID5 = 0.00;
             String ModifiedBy = "Moises Romero", ModifiedFromIP = "192.168.1.10";
             int CompanyId = 1;
+            URL = "Contabilidad/AgregarComprobante.jsp?IdComprobante=" + IdComprobante + "&DescComp=" + Descripcion + "&RefNum=" + NumeroReferencia + "&Fecha=" + Fecha;
             try {
                 datos.GLUPDBACH(IdComprobante, IdCatalago, LineId, NumeroReferencia, Descripcion, Fecha, AccountLevel1, AccountLevel2, AccountLevel3,
                         AccountLevel4, AccountLevel5, AccountLevel6, ComentLinea, MontoTranCurr, MontoCompCurre, MontoBaseCurre,
@@ -559,7 +572,6 @@ public class ServletContabilidad extends HttpServlet {
                         ModifiedBy, ModifiedFromIP, CompanyId);
             } catch (Exception e) {
             }
-            URL = "Contabilidad/AgregarComprobante.jsp?IdComprobante=" + IdComprobante + "&DescComp=" + Descripcion + "&RefNum=" + NumeroReferencia + "&Fecha=" + Fecha;
             response.sendRedirect(URL);
         }/////----------FINAL IF PARA ACTUALIZAR UNA LINEA DEL COMPROBANTE CONTABLE----------/////////
 
@@ -596,6 +608,40 @@ public class ServletContabilidad extends HttpServlet {
             URL = "Contabilidad/ListarComprobante.jsp";
             response.sendRedirect(URL);
         }//FIN DEL IF PARA ELIMINAR COMPROBANTE CONTABLE
+
+        //----------------------------------------------------------------------------------//
+        //---------------- IF PARA APROBAR EL COMPROBANTE CONTABLE-------------------------//
+        //----------------------------------------------------------------------------------//
+        if (Accion.equals("AprobarBATCH")) {
+            int IdComprobante = Integer.valueOf(request.getParameter("form-IdComprobante"));
+            int CompanyId = 1;
+            String ApprovedBy = "Moises Romero", ApprovedFromIP = "192.168.1.10";
+            try {
+                DaoContabilidad datos = new DaoContabilidad();
+                datos.AprobarBATCH(IdComprobante, CompanyId, ApprovedBy, ApprovedFromIP);
+
+            } catch (Exception e) {
+            }
+            URL = "Contabilidad/ListarComprobante.jsp";
+            response.sendRedirect(URL);
+        }//FIN DEL IF PARA APROBAR COMPROBANTE CONTABLE
+
+        //----------------------------------------------------------------------------------//
+        //---------------- IF PARA APLICAR EL COMPROBANTE CONTABLE-------------------------//
+        //----------------------------------------------------------------------------------//
+        if (Accion.equals("AplicarBATCH")) {
+            int IdComprobante = Integer.valueOf(request.getParameter("form-IdComprobante"));
+            int CompanyId = 1;
+            String AppliedBy = "Moises Romero", AppliedFromIP = "192.168.1.10";
+            try {
+                DaoContabilidad datos = new DaoContabilidad();
+                datos.ContabilizarBATCH(IdComprobante, CompanyId, AppliedBy, AppliedFromIP);
+                datos.AplicarBATCH(IdComprobante, CompanyId, AppliedBy, AppliedFromIP);
+            } catch (Exception e) {
+            }
+            URL = "Contabilidad/ListarComprobante.jsp";
+            response.sendRedirect(URL);
+        }//FIN DEL IF PARA APLICAR COMPROBANTE CONTABLE
 
     }//FIN DEL VOID
 
