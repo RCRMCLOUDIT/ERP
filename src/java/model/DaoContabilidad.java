@@ -3,6 +3,7 @@ package model;
 import beans.ConexionDB;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -134,7 +135,9 @@ public class DaoContabilidad extends ConexionDB {
                 GetGLTPCLSID = rs.getInt("GLTPCLSID");
                 GetGLTPNAME = rs.getString("GLTPNAME");
             }
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
         }
         return existe;
@@ -157,7 +160,9 @@ public class DaoContabilidad extends ConexionDB {
                 GetGLTPNAME = rs.getString("GLTPNAME");
                 GetGLTPACCID = rs.getString("GLTPACCID");
             }
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
         }
         return existe;
@@ -176,7 +181,9 @@ public class DaoContabilidad extends ConexionDB {
                 existe = true;
                 GetRelacion = rs.getInt("ASIGNADO");
             }
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
         }
         return existe;
@@ -297,7 +304,9 @@ public class DaoContabilidad extends ConexionDB {
                 GetAccountName = rs.getString("AccountName");
                 GetComments = rs.getString("Comments");
             }
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
 
         }
@@ -320,7 +329,9 @@ public class DaoContabilidad extends ConexionDB {
                 GetAccountNumber = rs.getString("AccountNumber");
                 GetAccountName = rs.getString("AccountName");
             }
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
 
         }
@@ -343,7 +354,9 @@ public class DaoContabilidad extends ConexionDB {
                 GetAccountNumber = rs.getString("AccountNumber");
                 GetAccountName = rs.getString("AccountName");
             }
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
 
         }
@@ -372,7 +385,9 @@ public class DaoContabilidad extends ConexionDB {
                 GetAccountLevel5 = rs.getString("AccountLevel5");
                 GetAccountLevel6 = rs.getString("AccountLevel6");
             }
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
 
         }
@@ -447,7 +462,9 @@ public class DaoContabilidad extends ConexionDB {
             st = conn.conexion.createStatement();
             pst = conn.Conectar().prepareStatement("DELETE FROM IBGLTPDST WHERE GLTMID=" + GLTMID + " ");
             pst.executeUpdate();
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
 
         }
@@ -632,6 +649,127 @@ public class DaoContabilidad extends ConexionDB {
         }
     }
 
+    //FUNCION PARA MANDAR A REGISTRAR TRANSACCIONES CONTABLES EN LA BASE DE DATOS. NOMBRE DE LA TABLA: IBGLDSTACC
+    public void GLADDTRANSTACC(int LineNumber, String DateTransaction, String DocumentNumber, String TypeDocument, String Coments, int IdCatalogo,
+            String AccountLevel1, String AccountLevel2, String AccountLevel3, String AccountLevel4, String AccountLevel5, String AccountLevel6,
+            String ComentsDetail, Double AmountTransCurr, Double AmountCompanyCurr, Double AmountBaseCurr, int CurrencyID, Double ExchangeRateTrans,
+            Double ExchangeRateBase, String MOVEMENTTYPE, int GLTMCCTYPID, Double GLTMCCID1, Double GLTMCCID2, Double GLTMCCID3, Double GLTMCCID4,
+            Double GLTMCCID5, Double TAGID, String CreatedBy, String CreatedFromIP, int CompanyId) throws SQLException {
+        try {
+            // creamos la conexion
+            ConexionDB conn = new ConexionDB();
+            conn.Conectar();
+            // establecemos que no sea autocommit, asi controlamos la transaccion de manera manual
+            conn.conexion.setAutoCommit(false);
+            /* instanciamos el objeto callable statement que usaremos para invocar el SP La cantidad de "?" determina la cantidad parametros que recibe el procedimiento */
+            CallableStatement cs = null;
+            cs = conn.Conectar().prepareCall("CALL GLADDTRANSTACC(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            // cargar parametros al SP
+            cs.setInt(1, LineNumber);
+            cs.setDate(2, Date.valueOf(DateTransaction));
+            cs.setString(3, DocumentNumber);
+            cs.setString(4, TypeDocument);
+            cs.setString(5, Coments);
+            cs.setInt(6, IdCatalogo);
+            cs.setString(7, AccountLevel1);
+            cs.setString(8, AccountLevel2);
+            cs.setString(9, AccountLevel3);
+            cs.setString(10, AccountLevel4);
+            cs.setString(11, AccountLevel5);
+            cs.setString(12, AccountLevel6);
+            cs.setString(13, ComentsDetail);
+            cs.setDouble(14, AmountTransCurr);
+            cs.setDouble(15, AmountCompanyCurr);
+            cs.setDouble(16, AmountBaseCurr);
+            cs.setInt(17, CurrencyID);
+            cs.setDouble(18, ExchangeRateTrans);
+            cs.setDouble(19, ExchangeRateBase);
+            cs.setString(20, MOVEMENTTYPE);
+            cs.setInt(21, GLTMCCTYPID);
+            cs.setDouble(22, GLTMCCID1);
+            cs.setDouble(23, GLTMCCID2);
+            cs.setDouble(24, GLTMCCID3);
+            cs.setDouble(25, GLTMCCID4);
+            cs.setDouble(26, GLTMCCID5);
+            cs.setDouble(27, TAGID);
+            cs.setString(28, CreatedBy);
+            cs.setString(29, CreatedFromIP);
+            cs.setInt(30, CompanyId);
+            // ejecutar el SP
+            cs.execute();
+            // confirmar si se ejecuto sin errores
+            conn.conexion.commit();
+        } catch (SQLException e) {
+            // deshacer la ejecucion en caso de error
+            //conn.rollback();
+            // informar por consola
+            System.out.println("Error Al ejcutar SP: " + e.getMessage());
+        } finally {
+            // cerrar la conexion
+            //conn.close();
+        }
+    }
+
+    //FUNCION PARA MANDAR A LEER EL COMPROBANTE EN LA TABLA IBGLBATCHDST QUE SE CONTABILIZARA
+    public void ContabilizarBATCH(int IdComprobante, int IdCompany, String CreatedBy, String CreatedFromIP) {
+        try {
+            ConexionDB conn = new ConexionDB();
+            conn.Conectar();
+            ResultSet rs = null;
+            PreparedStatement pst = null;
+            pst = conn.conexion.prepareStatement("SELECT IdComprobante, GLTMID, IDCATALOGO, GLBACHLINEID, GLBACHMREF, GLBACHMEMO, GLBACHDATE, AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6, GLBACHMEMODET, GLBACHAMOUNT, GLBACHNOMAMT, GLBACHBASAMT, GLBACHCURRENCY, GLBACHEXCHANGE, GLBACHMOVEMENTTYPE, GLBACHCCTYPID, GLBACHCCID1, GLBACHCCID2, GLBACHCCID3, GLBACHCCID4, GLBACHCCID5, GLBACHSTATUS FROM IBGLBATCHDST WHERE IdComprobante =" + IdComprobante + "  AND GLBACHSTATUS='Aprobado' AND CompanyId=" + IdCompany + " ");
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                GLADDTRANSTACC(rs.getInt(4), rs.getString(7), String.valueOf(IdComprobante), "Comprobante", rs.getString(6),
+                        rs.getInt(3), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12),
+                        rs.getString(13), rs.getString(14), rs.getDouble(15), rs.getDouble(16), rs.getDouble(17), rs.getInt(18),
+                        rs.getDouble(19), rs.getDouble(19), rs.getString(20), rs.getInt(21), rs.getDouble(22), rs.getDouble(23), rs.getDouble(24),
+                        rs.getDouble(25), rs.getDouble(26), 0.00, CreatedBy, CreatedFromIP, IdCompany);
+            }
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT.
+            conn.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    //FUNCION PARA MANDAR A APROBAR EL COMPROBANTE CONTABLE. NOMBRE DE LA TABLA: GLBACHDST
+    public boolean AplicarBATCH(int IdComprobante, int IdCompany, String AppliedBy, String AppliedFromIP) {
+        existe = false;
+        try {
+            ConexionDB conn = new ConexionDB();
+            conn.Conectar();
+            st = conn.conexion.createStatement();
+            pst = conn.Conectar().prepareStatement("UPDATE IBGLBATCHDST SET GLBACHSTATUS='Aplicado', AppliedBy='" + AppliedBy + "', AppliedOn=NOW(), AppliedFromIP='" + AppliedFromIP + "' WHERE IdComprobante=" + IdComprobante + " AND CompanyId=" + IdCompany + " ");
+            pst.executeUpdate();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
+        } catch (Exception e) {
+
+        }
+        return existe;
+    }
+
+    //FUNCION PARA MANDAR A APROBAR EL COMPROBANTE CONTABLE. NOMBRE DE LA TABLA: GLBACHDST
+    public boolean AprobarBATCH(int IdComprobante, int IdCompany, String ApprovedBy, String ApprovedFromIP) {
+        existe = false;
+        try {
+            ConexionDB conn = new ConexionDB();
+            conn.Conectar();
+            st = conn.conexion.createStatement();
+            pst = conn.Conectar().prepareStatement("UPDATE IBGLBATCHDST SET GLBACHSTATUS='Aprobado', ApprovedBy='" + ApprovedBy + "', ApprovedOn=NOW(), ApprovedFromIP='" + ApprovedFromIP + "' WHERE IdComprobante=" + IdComprobante + " AND CompanyId=" + IdCompany + " ");
+            pst.executeUpdate();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
+        } catch (Exception e) {
+
+        }
+        return existe;
+    }
+
     // FUNCION PARA ELIMINAR LA PLANTILLA CONTABLE
     public boolean DeleteBATCH(int IdComprobante) {
         existe = false;
@@ -641,7 +779,9 @@ public class DaoContabilidad extends ConexionDB {
             st = conn.conexion.createStatement();
             pst = conn.Conectar().prepareStatement("DELETE FROM IBGLBATCHDST WHERE IdComprobante=" + IdComprobante + " ");
             pst.executeUpdate();
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
 
         }
@@ -657,7 +797,9 @@ public class DaoContabilidad extends ConexionDB {
             st = conn.conexion.createStatement();
             pst = conn.Conectar().prepareStatement("UPDATE IBGLTDPST SET GLTMMEMO='" + GLTMMEMO + "' WHERE GLTMID=" + GLTMID + " ");
             pst.executeUpdate();
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
 
         }
@@ -673,7 +815,9 @@ public class DaoContabilidad extends ConexionDB {
             st = conn.conexion.createStatement();
             pst = conn.Conectar().prepareStatement("UPDATE IBGLBATCHDST SET GLBACHMEMO='" + GLBACHMEMO + "' WHERE IdComprobante=" + IdComprobante + " ");
             pst.executeUpdate();
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
 
         }
@@ -689,7 +833,9 @@ public class DaoContabilidad extends ConexionDB {
             st = conn.conexion.createStatement();
             pst = conn.Conectar().prepareStatement("DELETE FROM IBGLTDPST WHERE GLTMID=" + GLTMID + " AND GLTMLINEID=" + GLTMLINEID + " AND IDCATALOGO=" + IDCATALOGO + "");
             pst.executeUpdate();
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
 
         }
@@ -716,7 +862,9 @@ public class DaoContabilidad extends ConexionDB {
                 GetMOVEMENTTYPE = rs.getString(18);
                 GetGLTMCCTYPID = rs.getInt(19);
             }
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
 
         }
@@ -743,7 +891,9 @@ public class DaoContabilidad extends ConexionDB {
                 GetGLBACHMOVEMENTTYPE = rs.getString(20);
                 GetGLBACHCCTYPID = rs.getInt(21);
             }
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
 
         }
@@ -759,7 +909,9 @@ public class DaoContabilidad extends ConexionDB {
             st = conn.conexion.createStatement();
             pst = conn.Conectar().prepareStatement("DELETE FROM IBGLBATCHDST WHERE IdComprobante=" + IdComprobante + " AND GLBACHLINEID=" + GLBACHLINEID + " AND IDCATALOGO=" + IDCATALOGO + "");
             pst.executeUpdate();
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
 
         }
@@ -779,7 +931,9 @@ public class DaoContabilidad extends ConexionDB {
                 existe = true;
                 GetCurrentIdComprobante = rs.getInt("IdComprobante") + 1;
             }
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
 
         }
@@ -798,7 +952,9 @@ public class DaoContabilidad extends ConexionDB {
                 existe = true;
                 GetCurrentLineIdComp = rs.getInt("GLBACHLINEID") + 1;
             }
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
 
         }
@@ -818,7 +974,9 @@ public class DaoContabilidad extends ConexionDB {
                 existe = true;
                 GetCurrentGLTMID = rs.getInt("GLTMID") + 1;
             }
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
 
         }
@@ -838,7 +996,9 @@ public class DaoContabilidad extends ConexionDB {
                 existe = true;
                 GetCurrentGLTMLINEID = rs.getInt("GLTMLINEID") + 1;
             }
-            this.Cerrar();
+            this.Cerrar(); // CIERRO LA CONEXION A LA BASE DE DATOS
+            rs.close(); //CIERRO LA CONEXION DEL RESULSET.
+            pst.close(); //CIERRO EL PREPARED STATEMENT
         } catch (Exception e) {
 
         }
