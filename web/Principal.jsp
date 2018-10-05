@@ -23,7 +23,7 @@
         <%-- MENU --%>
         <nav class="navbar navbar-expand-sm bg-light navbar-light">
             <!-- Brand -->
-            <a class="navbar-brand" href=""><img src="images/LOGOIB.png" title="Infinity Business"></a>
+            <a class="navbar-brand" href="Principal.jsp"><img src="images/LOGOIB.png" title="Infinity Business"></a>
             <!-- Links -->
             <ul class="navbar-nav">
                 <!-- Dropdown -->
@@ -42,7 +42,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Bodega</a>
                     <div class="dropdown-menu">
-
+                        <a class="dropdown-item" href="Importaciones/BuscarPolizas.jsp">Importaciones</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -72,10 +72,14 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Contabilidad</a>
                     <div class="dropdown-menu">
+                        <a class="dropdown-item" href="Contabilidad/centrosdecosto/ListaNivelCC.jsp">Nivel de CC</a>
                         <a class="dropdown-item" href="Contabilidad/TiposCuenta.jsp">Tipos Cuentas</a>
                         <a class="dropdown-item" href="Contabilidad/CatalogoContable.jsp">Catalogo Contable</a>
+                        <div class="dropdown-divider"> Comprobantes </div>
                         <a class="dropdown-item" href="Contabilidad/PlantillaComprobante.jsp">Plantilla Comprobante</a>
                         <a class="dropdown-item" href="Contabilidad/BuscarComprobante.jsp">Buscar Comprobante</a>
+                        <div class="dropdown-divider"> Reportes </div>
+                        <a class="dropdown-item" href="Contabilidad/Reportes/DetalleTransCuenta.jsp">Detalle Trans. Por Cuenta</a>
                     </div>
                 </li>
             </ul>

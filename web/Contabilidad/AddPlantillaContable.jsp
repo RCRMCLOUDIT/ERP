@@ -13,14 +13,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <%--ESTILOS DEL FRAMEWORK BOOTSTRAP --%>
         <link rel="stylesheet" href="../css/bootstrap.min.css">
-        <link rel="stylesheet" href="../css/bootstrap.css">
-        <link rel="stylesheet" href="../css/jquery-ui-1.12.1.css">
+        <link rel="stylesheet" href="../css/bootstrap-select.css">
+        <%--JS DEL FRAMEWORK BOOTSTRAP Y JQUERY--%>
         <script src="../js/jquery.min.js"></script>
-        <script src="../js/popper.min.js"></script>
-        <script src="../js/bootstrap.min.js"></script>
-        <script src="../js/calendario.js"></script>
-        <script src="../js/jquery-ui.min.js"></script>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script src="../js/bootstrap-select.js"></script>
         <script>
             $(function () {
                 $("#grupoTablas").tabs();
@@ -41,7 +40,7 @@
         </script>
         <title>Plantilla Comprobante</title>
     </head>
-    <%@include file="../Commons/Menu.jsp" %>
+    <%@include file="../Commons/Menu.jsp"%>
     <body>
         <div id="EncabezadoPagina" style="background-color: #4682B4;">
             <center>
@@ -78,73 +77,73 @@
                         <span class="input-group-addon col-sm-1"><strong>Tipo</strong></span>
                     </div>
                     <div class="input-group">
-                        <select class="form-control col-sm-6" id="form-CtaContable" name="form-CtaContable" style="text-align: center">
-                            <option value='0'></option>
+                        <select class="selectpicker col-sm-6" id="form-CtaContable" name="form-CtaContable" data-live-search="true" title="Buscar Cuenta...">
                             <%  try {
                                     ConexionDB conn = new ConexionDB();
                                     conn.Conectar();
-                                    String consulta = "SELECT IDCATALOGO, AccountNumber, AccountName, AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6, Isacctaccessible FROM `IBGLACCNTS` WHERE Active='S'  ORDER BY `AccountNumber` ASC";
+                                    String consulta = "SELECT IDCATALOGO, AccountNumber, AccountName, AccountLevel1, AccountLevel2, AccountLevel3, AccountLevel4, AccountLevel5, AccountLevel6, Isacctaccessible, IBGLTYPACC.GLTPNAME FROM `IBGLACCNTS` INNER JOIN IBGLTYPACC ON IBGLACCNTS.GLTPCLSID=IBGLTYPACC.GLTPCLSID WHERE Active='S'  ORDER BY `AccountNumber` ASC";
                                     ResultSet rs = null;
                                     PreparedStatement pst = null;
                                     pst = conn.conexion.prepareStatement(consulta);
                                     rs = pst.executeQuery();
                                     while (rs.next()) {
                                         if (request.getParameter("SubC") != null && Integer.valueOf(request.getParameter("SubC")) > 0) {
-                                            out.println("<option selected='true' value='" + rs.getInt(1) + "'>" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                            //out.println("<option selected='true' value='" + rs.getInt(1) + "'>" + rs.getString(2) + " - " + rs.getString(3) + " | " + rs.getString(11) + " </option>");
+                                            out.println("<option class='text-primary' value='" + rs.getInt(1) + "'><span title=" + rs.getString(2) + " - " + rs.getString(3) + ">" + rs.getString(2) + " - " + rs.getString(3) + "&nbsp;</span>&nbsp;<span title=" + rs.getString(11) + "> " + rs.getString(11) + "&nbsp;</span> </option>");
                                         } else {
                                             //INDEX 4 = ACCOUNT LEVEL1; INDEX 5 = ACCOUNT LEVEL2; INDEX 6 = ACCOUNT LEVEL3
                                             //INDEX 7 = ACCOUNT LEVEL4; INDEX 8 = ACCOUNT LEVEL5; INDEX 9 = ACCOUNT LEVEL6
                                             if (Integer.valueOf(rs.getString(4)) > 0 && Integer.valueOf(rs.getString(5)) == 0 && Integer.valueOf(rs.getString(6)) == 0) {
                                                 //ES DE NIVEL 1
                                                 if (rs.getString(10).equals("S")) {
-                                                    out.println("<option value='" + rs.getInt(1) + "'>" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                    out.println("<option class='text-default' value='" + rs.getInt(1) + "'><span title=" + rs.getString(2) + " - " + rs.getString(3) + ">" + rs.getString(2) + " - " + rs.getString(3) + "&nbsp;</span>&nbsp;<span title=" + rs.getString(11) + "> " + rs.getString(11) + "&nbsp;</span> </option>");
                                                 } else {
-                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                    out.println("<option class='text-muted' disabled='true' value='" + rs.getInt(1) + "'><span title=" + rs.getString(2) + " - " + rs.getString(3) + ">" + rs.getString(2) + " - " + rs.getString(3) + "&nbsp;</span>&nbsp;<span title=" + rs.getString(11) + "> " + rs.getString(11) + "&nbsp;</span> </option>");
                                                 }
 
                                             }
                                             if (Integer.valueOf(rs.getString(5)) > 0 && Integer.valueOf(rs.getString(6)) == 0 && Integer.valueOf(rs.getString(7)) == 0) {
                                                 //ES DE NIVEL 2
                                                 if (rs.getString(10).equals("S")) {
-                                                    out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                    out.println("<option class='text-default' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;<span title=" + rs.getString(2) + " - " + rs.getString(3) + ">" + rs.getString(2) + " - " + rs.getString(3) + "&nbsp;</span>&nbsp;<span title=" + rs.getString(11) + "> " + rs.getString(11) + "&nbsp;</span> </option>");
                                                 } else {
-                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                    out.println("<option class='text-muted' disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;<span title=" + rs.getString(2) + " - " + rs.getString(3) + ">" + rs.getString(2) + " - " + rs.getString(3) + "&nbsp;</span>&nbsp;<span title=" + rs.getString(11) + "> " + rs.getString(11) + "&nbsp;</span> </option>");
                                                 }
 
                                             }
                                             if (Integer.valueOf(rs.getString(6)) > 0 && Integer.valueOf(rs.getString(7)) == 0 && Integer.valueOf(rs.getString(8)) == 0) {
                                                 //ES DE NIVEL 3
                                                 if (rs.getString(10).equals("S")) {
-                                                    out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                    out.println("<option class='text-default' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span title=" + rs.getString(2) + " - " + rs.getString(3) + ">" + rs.getString(2) + " - " + rs.getString(3) + "&nbsp;</span>&nbsp;<span title=" + rs.getString(11) + "> " + rs.getString(11) + "&nbsp;</span> </option>");
                                                 } else {
-                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                    out.println("<option class='text-muted' disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span title=" + rs.getString(2) + " - " + rs.getString(3) + ">" + rs.getString(2) + " - " + rs.getString(3) + "&nbsp;</span>&nbsp;<span title=" + rs.getString(11) + "> " + rs.getString(11) + "&nbsp;</span> </option>");
                                                 }
 
                                             }
                                             if (Integer.valueOf(rs.getString(7)) > 0 && Integer.valueOf(rs.getString(8)) == 0 && Integer.valueOf(rs.getString(9)) == 0) {
                                                 //ES DE NIVEL 4
                                                 if (rs.getString(10).equals("S")) {
-                                                    out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                    out.println("<option class='text-default' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span title=" + rs.getString(2) + " - " + rs.getString(3) + ">" + rs.getString(2) + " - " + rs.getString(3) + "&nbsp;</span>&nbsp;<span title=" + rs.getString(11) + "> " + rs.getString(11) + "&nbsp;</span> </option>");
                                                 } else {
-                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                    out.println("<option class='text-muted' disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span title=" + rs.getString(2) + " - " + rs.getString(3) + ">" + rs.getString(2) + " - " + rs.getString(3) + "&nbsp;</span>&nbsp;<span title=" + rs.getString(11) + "> " + rs.getString(11) + "&nbsp;</span> </option>");
                                                 }
 
                                             }
                                             if (Integer.valueOf(rs.getString(8)) > 0 && Integer.valueOf(rs.getString(9)) == 0) {
                                                 //ES DE NIVEL 5
                                                 if (rs.getString(10).equals("S")) {
-                                                    out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                    out.println("<option class='text-default' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span title=" + rs.getString(2) + " - " + rs.getString(3) + ">" + rs.getString(2) + " - " + rs.getString(3) + "&nbsp;</span>&nbsp;<span title=" + rs.getString(11) + "> " + rs.getString(11) + "&nbsp;</span> </option>");
                                                 } else {
-                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                    out.println("<option class='text-muted' disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span title=" + rs.getString(2) + " - " + rs.getString(3) + ">" + rs.getString(2) + " - " + rs.getString(3) + "&nbsp;</span>&nbsp;<span title=" + rs.getString(11) + "> " + rs.getString(11) + "&nbsp;</span> </option>");
                                                 }
 
                                             }
                                             if (Integer.valueOf(rs.getString(9)) > 0) {
                                                 //ES DE NIVEL 6
                                                 if (rs.getString(10).equals("S")) {
-                                                    out.println("<option value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                    out.println("<option class='text-default' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span title=" + rs.getString(2) + " - " + rs.getString(3) + ">" + rs.getString(2) + " - " + rs.getString(3) + "&nbsp;</span>&nbsp;<span title=" + rs.getString(11) + "> " + rs.getString(11) + "&nbsp;</span> </option>");
                                                 } else {
-                                                    out.println("<option disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString(2) + " - " + rs.getString(3) + "</option>");
+                                                    out.println("<option class='text-muted' disabled='true' value='" + rs.getInt(1) + "'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span title=" + rs.getString(2) + " - " + rs.getString(3) + ">" + rs.getString(2) + " - " + rs.getString(3) + "&nbsp;</span>&nbsp;<span title=" + rs.getString(11) + "> " + rs.getString(11) + "&nbsp;</span> </option>");
                                                 }
 
                                             }

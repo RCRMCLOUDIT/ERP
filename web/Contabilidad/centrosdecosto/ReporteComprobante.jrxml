@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="65eaae81-0b64-4c94-910d-e9e73c00504e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="IdComprobante" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="NombreEmpresa" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT IBGLACCNTS.AccountNumber, IBGLACCNTS.AccountName, IBGLBATCHDST.GLBACHAMOUNT, IBGLBATCHDST.GLBACHMEMODET, IBGLBATCHDST.GLBACHMOVEMENTTYPE, IBGLBATCHDST.GLTMID, IBGLBATCHDST.GLBACHLINEID, IBGLBATCHDST.IDCATALOGO, IBGLBATCHDST.GLBACHMEMO, IBGLBATCHDST.IdComprobante, IBGLBATCHDST.GLBACHMREF, IBGLBATCHDST.GLBACHDATE,
+(SELECT SUM(GLBACHAMOUNT) FROM `IBGLBATCHDST` WHERE GLBACHMOVEMENTTYPE='C' AND IdComprobante=$P{IdComprobante}) AS TOTALCREDITOS,
+(SELECT SUM(GLBACHAMOUNT) FROM `IBGLBATCHDST` WHERE GLBACHMOVEMENTTYPE='D' AND IdComprobante=$P{IdComprobante}) AS TOTALDEBITOS FROM IBGLBATCHDST INNER JOIN IBGLACCNTS ON IBGLBATCHDST.IDCATALOGO=IBGLACCNTS.IDCATALOGO WHERE IBGLBATCHDST.IdComprobante =$P{IdComprobante}]]>
+	</queryString>
+	<field name="AccountNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AccountName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GLBACHAMOUNT" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GLBACHMEMODET" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GLBACHMOVEMENTTYPE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GLTMID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GLBACHLINEID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="IDCATALOGO" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GLBACHMEMO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="IdComprobante" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GLBACHMREF" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GLBACHDATE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TOTALCREDITOS" class="java.math.BigDecimal"/>
+	<field name="TOTALDEBITOS" class="java.math.BigDecimal"/>
+	<variable name="GLBACHAMOUNT_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{GLBACHAMOUNT}]]></variableExpression>
+	</variable>
+	<variable name="GLBACHAMOUNT_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{GLBACHAMOUNT}]]></variableExpression>
+	</variable>
+	<variable name="TotalCreditos" class="java.lang.Double" calculation="Sum"/>
+	<variable name="TotalDebitos" class="java.lang.Double" calculation="Sum"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="58" splitType="Stretch">
+			<staticText>
+				<reportElement x="291" y="38" width="221" height="20" uuid="c1eb89a4-9512-436d-a039-ee27542ba2b1"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPROBANTE CONTABLE]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="638" y="0" width="164" height="20" uuid="40d42f06-e41c-49f7-a5f1-4eb3b6e6a216"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="291" y="0" width="221" height="20" uuid="aab98d1f-2d3b-41d7-b408-e38a06f6383d"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NombreEmpresa}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="77" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="4" width="802" height="69" uuid="bedd258b-6606-4a47-8f88-d795c14627ee"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="16" y="7" width="167" height="20" uuid="376efad0-4d90-41bd-9a9b-1acc2a8fd4f9"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre Comprobante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="27" width="167" height="20" uuid="0eb2e24b-9541-4f45-856c-d80e13ff64c1"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Referencia #]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="47" width="167" height="20" uuid="ba415b14-f67f-4ba9-8046-59aa21e9cb13"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="183" y="47" width="420" height="20" uuid="73223b82-4664-4c9a-9c39-e47cf1cf3ad4"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GLBACHDATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="183" y="27" width="420" height="20" uuid="1088c201-6632-497d-93c0-f208af791f85"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GLBACHMREF}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="183" y="7" width="420" height="20" uuid="f6133dd1-0397-4362-9327-ba6d2a251f0e"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GLBACHMEMO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="31" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="4" width="799" height="20" uuid="63ad0281-7557-4ea4-9dfa-2c6068033c95"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="1" y="4" width="100" height="20" uuid="c88ca517-cb85-496b-a666-5b94f1e070cc"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Numero de Cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="4" width="157" height="20" uuid="4210ceed-8e95-4d6f-8164-79fb7119bcf7"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre Cuenta Contable]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="256" y="4" width="131" height="20" uuid="5d60b8ff-1a26-44ca-9b5e-80fcab50ca8d"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Concepto Movimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="386" y="4" width="100" height="20" uuid="c66f2b39-b53c-4931-b5c3-f036644ddd81"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Débito]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="485" y="4" width="100" height="20" uuid="2274527d-dec8-4d29-966e-b504c65dfc11"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Crédito]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="584" y="4" width="215" height="20" uuid="3f81dd39-288b-4b3b-b09c-64ca8d892a86"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Centro de Costos]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="3923c5af-1e5b-4833-99ab-229cf7dabf89"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{AccountNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="157" height="20" uuid="3df5b3bf-b19d-4345-a233-5ace09505b81"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{AccountName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="257" y="0" width="131" height="20" uuid="b8777ffd-77c8-4975-9d56-d80a8edb1dda"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{GLBACHMEMODET}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="487" y="0" width="100" height="20" uuid="6ee97304-b322-4cf3-bf73-0032792fe596"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[( $F{GLBACHMOVEMENTTYPE}.equals("C") ? ($F{GLBACHAMOUNT}):(null) )]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="388" y="0" width="100" height="20" uuid="761d01d2-d351-4aaa-9766-4a559cac64b8"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[( $F{GLBACHMOVEMENTTYPE}.equals("D") ? ($F{GLBACHAMOUNT}):(null))]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="256" y="30" width="100" height="20" uuid="137793b6-363c-405f-a68a-c9b548fef9f1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aprobado Por:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="512" y="30" width="100" height="20" uuid="670edca9-b7ed-42e0-9ac5-98e1e452d708"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aplicado Por:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="30" width="100" height="20" uuid="6947189d-dbf3-42dc-816f-714aaaeb9568"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Elaborado Por:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="103" y="47" width="142" height="1" uuid="d826fbc3-dd75-4f64-9a6b-d8e4493fba6b"/>
+			</line>
+			<line>
+				<reportElement x="356" y="46" width="142" height="1" uuid="67eee818-7a6d-42fa-a5a6-71efa9e9a814"/>
+			</line>
+			<line>
+				<reportElement x="612" y="48" width="142" height="1" uuid="0e47a627-0514-433e-a82b-992546a81137"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<rectangle>
+				<reportElement x="203" y="8" width="381" height="20" uuid="be25d93f-f43d-4061-b6f7-f40ef779e914"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="204" y="8" width="182" height="20" uuid="2a9f6acb-dd75-4e82-8c21-2f16da30697a"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTALES]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="385" y="8" width="100" height="20" uuid="19e28e2d-1b74-4c34-9060-7a2a763d7783"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTALDEBITOS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="487" y="8" width="97" height="20" uuid="3d93164f-9e69-430f-b823-e9671b769e1d"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTALCREDITOS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

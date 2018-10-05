@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1d3f231b-9bd0-41f3-af21-94fe9ca502ec">
+	<property name="ireport.zoom" value="1.2396694214876032"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT IBGLTPDST.GLTMMEMO, IBGLTPDST.GLTMREF, IBGLACCNTS.AccountNumber, IBGLACCNTS.AccountName, IBGLTPDST.GLTMAMOUNT, IBGLTPDST.GLTMMEMODET, IBGLTPDST.MOVEMENTTYPE, IBGLTPDST.GLTMID, IBGLTPDST.GLTMLINEID, IBGLTPDST.IDCATALOGO, IBGLTPDST.GLTMMEMO FROM IBGLTPDST INNER JOIN IBGLACCNTS ON IBGLTPDST.IDCATALOGO=IBGLACCNTS.IDCATALOGO WHERE IBGLTPDST.GLTMID = 4]]>
+	</queryString>
+	<field name="GLTMMEMO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GLTMREF" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AccountNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AccountName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GLTMAMOUNT" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GLTMMEMODET" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MOVEMENTTYPE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GLTMID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GLTMLINEID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="IDCATALOGO" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="181" y="29" width="221" height="20" uuid="c8453696-031f-4533-b9a5-02d53fd121d8"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PLANTILLA DE  COMPROBANTE]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="63" splitType="Stretch">
+			<textField>
+				<reportElement x="122" y="0" width="280" height="20" uuid="c5346fce-25ee-48f8-8e00-e7c887ed5b55"/>
+				<textFieldExpression><![CDATA[$F{GLTMMEMO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="122" height="20" uuid="aab5b240-66b6-469b-b3a0-8e052c01fc3d"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre Plantilla:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="122" y="20" width="280" height="20" uuid="77cbdcee-6b5f-4f3e-82b8-78b8d9cca095"/>
+				<textFieldExpression><![CDATA[$F{GLTMREF}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="122" height="20" uuid="4221c015-c2c6-4cac-a194-6f47af85b742"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Referencia #]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="46e795af-f321-4565-ad51-ae4aff572133"/>
+				<text><![CDATA[Numero de Cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="197" height="20" uuid="1750082f-6be2-496e-abe7-0c6517a8c581"/>
+				<text><![CDATA[Cuenta Contable]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="0" width="100" height="20" uuid="2b6c7f49-0013-470d-9bfb-5039f6c7bbf9"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Débito]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="396" y="0" width="100" height="20" uuid="3b79ec25-013b-4aba-ae85-6f5ca10f375e"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Crédito]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="6a3bad5b-6799-4f47-843a-7c86a939247e"/>
+				<textFieldExpression><![CDATA[$F{AccountNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="197" height="20" uuid="1e85ba74-44a5-4650-a6b2-243e726b44a7"/>
+				<textFieldExpression><![CDATA[$F{AccountName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="297" y="0" width="100" height="20" uuid="94fbbf39-0cc1-4b31-873c-fce379352a2a"/>
+				<textFieldExpression><![CDATA[$F{GLTMAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="396" y="0" width="100" height="20" uuid="e17d2458-4d75-4cda-a0e1-b603e31b42c3"/>
+				<textFieldExpression><![CDATA[$F{GLTMAMOUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
