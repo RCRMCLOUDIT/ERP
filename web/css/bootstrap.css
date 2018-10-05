@@ -1540,7 +1540,6 @@ pre code {
 
 .table-hover tbody tr:hover {
     background-color: rgba(0, 0, 0, 0.075); }
-
 .table-active,
 .table-active > th,
 .table-active > td {
@@ -2337,10 +2336,12 @@ tbody.collapse.in {
     padding: 0.5rem 0;
     margin: 0.125rem 0 0;
     font-size: 1rem;
-    color: #373a3c;
+    /*color: #373a3c;*/
     text-align: left;
     list-style: none;
-    background-color: #fff;
+    /*background-color: #fff;*/
+    background: #CECFD4;
+    color:#fff;
     background-clip: padding-box;
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 0.25rem; }
