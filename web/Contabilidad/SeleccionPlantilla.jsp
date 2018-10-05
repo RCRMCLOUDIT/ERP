@@ -71,7 +71,9 @@
                 <div class="row form-group">
                     <div class="col-sm-3"> </div>
                     <div class="col-sm-2"> 
-                        <button type='button' onclick='location.href = "BuscarComprobante.jsp"' class='btn btn-primary'> <<< Volver</button>
+                        <button type='button' onclick='location.href = "BuscarComprobante.jsp"' class='btn btn-primary'> 
+                            <i class="icon ion-arrow-return-left"></i> Volver a Busqueda
+                        </button>
                     </div>
                     <button type="submit" class="btn btn-success" id="btnBuscar" name="btnBuscar" >Continuar >>></button>
                 </div>
